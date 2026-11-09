@@ -1,21 +1,4 @@
 #!/usr/bin/env python3
-"""
-Single-agent LLM HVAC controller using Brick spatio-temporal context.
-
-This script uses the same retrieval style as `hop_sinergym_spatiotemporal_preview.py`.
-At every Sinergym decision step it builds one LLM-ready context containing:
-  - Static Brick topology and zone spatial context from the TTL.
-  - Current Sinergym values attached to Brick points by timeseries reference.
-  - Rolling prior-step history, capped at 10 steps.
-
-The LLM chooses five zone heating/cooling setpoint pairs. CSVs, prompt I/O,
-Sinergym output folders, metrics, and MLflow artifacts are flushed in `finally`
-so completed data is preserved on interruption.
-
-Run the full configured run period without the LLM API:
-    USE_LLM_API=0 python "1 ag kg gpt 5z custom pmv.py"
-"""
-
 from __future__ import annotations
 
 import json
@@ -72,7 +55,7 @@ except ImportError:
 # CONFIG: simulation, action bounds, outputs, API, and tracking.
 # =============================================================================
 
-ENV_ID = "Eplus-5zone-zonal-arizona-continuous-v1"
+ENV_ID = "Eplus-5zone-zonal-arizona-continuous-v1" #env_ID is changed to zonal as we modified the 5zone epjson and yaml config file to have individul zone control and observation.
 PMV_SOURCE = os.environ.get("PMV_SOURCE", "custom").strip().lower()  # "custom" or "energyplus"
 if PMV_SOURCE not in {"custom", "energyplus"}:
     raise ValueError("PMV_SOURCE must be 'custom' or 'energyplus'")
@@ -114,7 +97,7 @@ WINTER_COMFORT = (20.0, 23.5)
 SUMMER_COMFORT = (23.0, 26.0)
 
 SCRIPT_DIR = os.path.dirname(os.path.abspath(__file__))
-MODEL = os.environ.get("AGENT_OPENAI_MODEL", "gpt-6-luna")
+MODEL = os.environ.get("AGENT_OPENAI_MODEL", "gpt-6-sol")
 RUN_TS = datetime.now().strftime("%Y%m%d_%H%M%S")
 MODEL_TAG = re.sub(r"[^A-Za-z0-9_-]+", "_", MODEL)
 ENV_NAME = f"{MODEL_TAG}_Arizona_sumWEEK_JUNE7days_BRICK_5zone_VAV_PMV_5stepPLAN_{RUN_TS}"
