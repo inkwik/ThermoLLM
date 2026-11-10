@@ -1,0 +1,727 @@
+@prefix bldg: <https://example.org/sinergym/2zone-datacenter-dx#> .
+@prefix brick: <https://brickschema.org/schema/Brick#> .
+@prefix ext: <urn:sinergym-datacenter-dx#> .
+@prefix qudt: <http://qudt.org/schema/qudt/> .
+@prefix rdf: <http://www.w3.org/1999/02/22-rdf-syntax-ns#> .
+@prefix rdfs: <http://www.w3.org/2000/01/rdf-schema#> .
+@prefix rec: <https://w3id.org/rec#> .
+@prefix ref: <https://brickschema.org/schema/Brick/ref#> .
+@prefix unit: <http://qudt.org/vocab/unit/> .
+@prefix xsd: <http://www.w3.org/2001/XMLSchema#> .
+
+bldg:air_loop_East_Zone_Air_System a brick:Air_Loop ;
+    rdfs:label "East Zone Air System" ;
+    rec:includes bldg:ahu_East_Zone_Air_System ;
+    ext:hasAirHandlingUnit bldg:ahu_East_Zone_Air_System .
+
+bldg:air_loop_West_Zone_Air_System a brick:Air_Loop ;
+    rdfs:label "West Zone Air System" ;
+    rec:includes bldg:ahu_West_Zone_Air_System ;
+    ext:hasAirHandlingUnit bldg:ahu_West_Zone_Air_System .
+
+bldg:ite_EastDataCenter_Equip a brick:Electrical_Equipment ;
+    rdfs:label "EastDataCenter_Equip" ;
+    rdfs:comment "Air-cooled IT equipment; design W/m2=200; CPU loading schedule=Data Center CPU Loading Schedule." ;
+    brick:hasLocation bldg:zone_East_Zone ;
+    brick:hasPoint bldg:point_East_ITE_CPU_Electricity_Rate .
+
+bldg:ite_WestDataCenter_Equip a brick:Electrical_Equipment ;
+    rdfs:label "WestDataCenter_Equip" ;
+    rdfs:comment "Air-cooled IT equipment; design W/m2=200; CPU loading schedule=Data Center CPU Loading Schedule." ;
+    brick:hasLocation bldg:zone_West_Zone ;
+    brick:hasPoint bldg:point_West_ITE_CPU_Electricity_Rate .
+
+bldg:site_CHICAGO_IL_USA_TMY2_94846 a brick:Site ;
+    rdfs:label "CHICAGO_IL_USA TMY2-94846" ;
+    rdfs:comment "EnergyPlus template site; actual outdoor weather comes from the selected Sinergym EPW (hot = Arizona)." ;
+    brick:hasPart bldg:building_2ZoneDataCenterHVAC_wEconomizer_DX ;
+    brick:latitude 41.78 ;
+    brick:longitude -87.75 .
+
+bldg:thermostat_East_Zone_Thermostat a brick:Thermostat ;
+    rdfs:label "East Zone Thermostat" ;
+    brick:hasLocation bldg:zone_East_Zone ;
+    brick:hasPoint bldg:point_East_Cooling_Setpoint,
+        bldg:point_East_Heating_Setpoint .
+
+bldg:thermostat_West_Zone_Thermostat a brick:Thermostat ;
+    rdfs:label "West Zone Thermostat" ;
+    brick:hasLocation bldg:zone_West_Zone ;
+    brick:hasPoint bldg:point_West_Cooling_Setpoint,
+        bldg:point_West_Heating_Setpoint .
+
+bldg:weather_Outdoor_Weather_Station a brick:Weather_Station ;
+    rdfs:label "Outdoor Weather Station" ;
+    brick:hasLocation bldg:building_2ZoneDataCenterHVAC_wEconomizer_DX ;
+    brick:hasPoint bldg:point_Diffuse_Solar_Radiation,
+        bldg:point_Direct_Solar_Radiation,
+        bldg:point_Outdoor_Air_Humidity,
+        bldg:point_Outdoor_Air_Temperature,
+        bldg:point_Site_Wind_Direction,
+        bldg:point_Site_Wind_Speed .
+
+ext:adjacentTo a rdf:Property .
+
+ext:energyPlusObjectType a rdf:Property .
+
+ext:hasAirHandlingUnit a rdf:Property .
+
+ext:hasEnvelopeSurface a rdf:Property .
+
+ext:outsideBoundaryCondition a rdf:Property .
+
+ext:returnPathFrom a rdf:Property .
+
+unit:DEG a qudt:Unit .
+
+unit:J a qudt:Unit .
+
+unit:M-PER-SEC a qudt:Unit .
+
+bldg:equipment_East_Zone_OA_System a brick:HVAC_Equipment ;
+    rdfs:label "East Zone OA System" ;
+    brick:feeds bldg:equipment_East_Zone_Supply_Fan ;
+    ext:energyPlusObjectType "AirLoopHVAC:OutdoorAirSystem" .
+
+bldg:equipment_West_Zone_OA_System a brick:HVAC_Equipment ;
+    rdfs:label "West Zone OA System" ;
+    brick:feeds bldg:equipment_West_Zone_Supply_Fan ;
+    ext:energyPlusObjectType "AirLoopHVAC:OutdoorAirSystem" .
+
+bldg:plenum_East_Supply_Plenum a brick:HVAC_Equipment ;
+    rdfs:label "East Supply Plenum" ;
+    rdfs:comment "EnergyPlus AirLoopHVAC:SupplyPlenum; serves the zone inlet path." ;
+    brick:feeds bldg:vav_East_Zone_VAV_System .
+
+bldg:plenum_West_Supply_Plenum a brick:HVAC_Equipment ;
+    rdfs:label "West Supply Plenum" ;
+    rdfs:comment "EnergyPlus AirLoopHVAC:SupplyPlenum; serves the zone inlet path." ;
+    brick:feeds bldg:vav_West_Zone_VAV_System .
+
+bldg:point_Diffuse_Solar_Radiation a brick:Solar_Irradiance_Sensor ;
+    rdfs:label "Diffuse Solar Radiation" ;
+    rdfs:comment "Runtime value from Sinergym and the selected EPW." ;
+    brick:hasUnit unit:W-PER-M2 ;
+    ref:hasExternalReference bldg:timeseries_ref_diffuse_solar_radiation .
+
+bldg:point_Direct_Solar_Radiation a brick:Solar_Irradiance_Sensor ;
+    rdfs:label "Direct Solar Radiation" ;
+    rdfs:comment "Runtime value from Sinergym and the selected EPW." ;
+    brick:hasUnit unit:W-PER-M2 ;
+    ref:hasExternalReference bldg:timeseries_ref_direct_solar_radiation .
+
+bldg:point_East_DX_Sensible_Cooling_Rate a brick:Sensor ;
+    rdfs:label "East DX Sensible Cooling Rate" ;
+    rdfs:comment "Observed DX cooling rate in W." ;
+    brick:hasUnit unit:W ;
+    ref:hasExternalReference bldg:timeseries_ref_east_dx_sensible_cooling_rate .
+
+bldg:point_East_DX_Total_Cooling_Rate a brick:Sensor ;
+    rdfs:label "East DX Total Cooling Rate" ;
+    rdfs:comment "Observed DX cooling rate in W." ;
+    brick:hasUnit unit:W ;
+    ref:hasExternalReference bldg:timeseries_ref_east_dx_total_cooling_rate .
+
+bldg:point_East_ITE_CPU_Electricity_Rate a brick:Sensor ;
+    rdfs:label "East ITE CPU Electricity Rate" ;
+    rdfs:comment "Actual per-zone ITE CPU electric rate in W; internal heat source, not HVAC energy." ;
+    brick:hasUnit unit:W ;
+    ref:hasExternalReference bldg:timeseries_ref_east_ite_cpu_electricity_rate .
+
+bldg:point_East_Mean_Radiant_Temperature a brick:Sensor ;
+    rdfs:label "East Mean Radiant Temperature" ;
+    rdfs:comment "Zone mean radiant temperature in C." ;
+    brick:hasUnit unit:DEG_C ;
+    ref:hasExternalReference bldg:timeseries_ref_east_zone_mean_radiant_temperature .
+
+bldg:point_East_Return_Air_Temperature a brick:Sensor ;
+    rdfs:label "East Return Air Temperature" ;
+    rdfs:comment "Return node air temperature in C." ;
+    brick:hasUnit unit:DEG_C ;
+    ref:hasExternalReference bldg:timeseries_ref_east_return_temperature .
+
+bldg:point_East_Supply_Air_Mass_Flow a brick:Sensor ;
+    rdfs:label "East Supply Air Mass Flow" ;
+    rdfs:comment "Zone inlet mass flow rate in kg/s." ;
+    brick:hasUnit unit:KiloGM-PER-SEC ;
+    ref:hasExternalReference bldg:timeseries_ref_east_mass_flow_rate .
+
+bldg:point_East_Supply_Air_Temperature a brick:Sensor ;
+    rdfs:label "East Supply Air Temperature" ;
+    rdfs:comment "Zone inlet node air temperature in C." ;
+    brick:hasUnit unit:DEG_C ;
+    ref:hasExternalReference bldg:timeseries_ref_east_supply_temperature .
+
+bldg:point_East_Zone_Air_Humidity a brick:Zone_Air_Humidity_Sensor ;
+    rdfs:label "East Zone Air Humidity" ;
+    rdfs:comment "Zone relative humidity in percent." ;
+    brick:hasUnit unit:PERCENT ;
+    ref:hasExternalReference bldg:timeseries_ref_east_zone_air_humidity .
+
+bldg:point_East_Zone_Air_Temperature a brick:Zone_Air_Temperature_Sensor ;
+    rdfs:label "East Zone Air Temperature" ;
+    rdfs:comment "Controlled zone air temperature in C." ;
+    brick:hasUnit unit:DEG_C ;
+    ref:hasExternalReference bldg:timeseries_ref_east_zone_air_temperature .
+
+bldg:point_Facility_HVAC_Electricity_Demand a brick:Sensor ;
+    rdfs:label "Facility HVAC Electricity Demand" ;
+    rdfs:comment "Facility-wide HVAC demand rate in W, reported for the completed interval." ;
+    brick:hasUnit unit:W ;
+    ref:hasExternalReference bldg:timeseries_ref_HVAC_electricity_demand_rate .
+
+bldg:point_Facility_HVAC_Electricity_Energy a brick:Electrical_Energy_Usage_Sensor ;
+    rdfs:label "Facility HVAC Electricity Energy" ;
+    rdfs:comment "Energy consumed in the just-completed 15-minute interval, in joules; divide by 3,600,000 for kWh.",
+        "Facility-wide HVAC meter; do not attribute this energy to either zone separately." ;
+    brick:hasUnit unit:J ;
+    ref:hasExternalReference bldg:timeseries_ref_HVAC_electricity_energy_j .
+
+bldg:point_Outdoor_Air_Humidity a brick:Outside_Air_Humidity_Sensor ;
+    rdfs:label "Outdoor Air Humidity" ;
+    rdfs:comment "Runtime value from Sinergym and the selected EPW." ;
+    brick:hasUnit unit:PERCENT ;
+    ref:hasExternalReference bldg:timeseries_ref_outdoor_humidity .
+
+bldg:point_Outdoor_Air_Temperature a brick:Outside_Air_Temperature_Sensor ;
+    rdfs:label "Outdoor Air Temperature" ;
+    rdfs:comment "Runtime value from Sinergym and the selected EPW." ;
+    brick:hasUnit unit:DEG_C ;
+    ref:hasExternalReference bldg:timeseries_ref_outdoor_temperature .
+
+bldg:point_Site_Wind_Direction a brick:Sensor ;
+    rdfs:label "Site Wind Direction" ;
+    rdfs:comment "Runtime value from Sinergym and the selected EPW." ;
+    brick:hasUnit unit:DEG ;
+    ref:hasExternalReference bldg:timeseries_ref_wind_direction .
+
+bldg:point_Site_Wind_Speed a brick:Wind_Speed_Sensor ;
+    rdfs:label "Site Wind Speed" ;
+    rdfs:comment "Runtime value from Sinergym and the selected EPW." ;
+    brick:hasUnit unit:M-PER-SEC ;
+    ref:hasExternalReference bldg:timeseries_ref_wind_speed .
+
+bldg:point_West_DX_Sensible_Cooling_Rate a brick:Sensor ;
+    rdfs:label "West DX Sensible Cooling Rate" ;
+    rdfs:comment "Observed DX cooling rate in W." ;
+    brick:hasUnit unit:W ;
+    ref:hasExternalReference bldg:timeseries_ref_west_dx_sensible_cooling_rate .
+
+bldg:point_West_DX_Total_Cooling_Rate a brick:Sensor ;
+    rdfs:label "West DX Total Cooling Rate" ;
+    rdfs:comment "Observed DX cooling rate in W." ;
+    brick:hasUnit unit:W ;
+    ref:hasExternalReference bldg:timeseries_ref_west_dx_total_cooling_rate .
+
+bldg:point_West_ITE_CPU_Electricity_Rate a brick:Sensor ;
+    rdfs:label "West ITE CPU Electricity Rate" ;
+    rdfs:comment "Actual per-zone ITE CPU electric rate in W; internal heat source, not HVAC energy." ;
+    brick:hasUnit unit:W ;
+    ref:hasExternalReference bldg:timeseries_ref_west_ite_cpu_electricity_rate .
+
+bldg:point_West_Mean_Radiant_Temperature a brick:Sensor ;
+    rdfs:label "West Mean Radiant Temperature" ;
+    rdfs:comment "Zone mean radiant temperature in C." ;
+    brick:hasUnit unit:DEG_C ;
+    ref:hasExternalReference bldg:timeseries_ref_west_zone_mean_radiant_temperature .
+
+bldg:point_West_Return_Air_Temperature a brick:Sensor ;
+    rdfs:label "West Return Air Temperature" ;
+    rdfs:comment "Return node air temperature in C." ;
+    brick:hasUnit unit:DEG_C ;
+    ref:hasExternalReference bldg:timeseries_ref_west_return_temperature .
+
+bldg:point_West_Supply_Air_Mass_Flow a brick:Sensor ;
+    rdfs:label "West Supply Air Mass Flow" ;
+    rdfs:comment "Zone inlet mass flow rate in kg/s." ;
+    brick:hasUnit unit:KiloGM-PER-SEC ;
+    ref:hasExternalReference bldg:timeseries_ref_west_mass_flow_rate .
+
+bldg:point_West_Supply_Air_Temperature a brick:Sensor ;
+    rdfs:label "West Supply Air Temperature" ;
+    rdfs:comment "Zone inlet node air temperature in C." ;
+    brick:hasUnit unit:DEG_C ;
+    ref:hasExternalReference bldg:timeseries_ref_west_supply_temperature .
+
+bldg:point_West_Zone_Air_Humidity a brick:Zone_Air_Humidity_Sensor ;
+    rdfs:label "West Zone Air Humidity" ;
+    rdfs:comment "Zone relative humidity in percent." ;
+    brick:hasUnit unit:PERCENT ;
+    ref:hasExternalReference bldg:timeseries_ref_west_zone_air_humidity .
+
+bldg:point_West_Zone_Air_Temperature a brick:Zone_Air_Temperature_Sensor ;
+    rdfs:label "West Zone Air Temperature" ;
+    rdfs:comment "Controlled zone air temperature in C." ;
+    brick:hasUnit unit:DEG_C ;
+    ref:hasExternalReference bldg:timeseries_ref_west_zone_air_temperature .
+
+bldg:return_mixer_East_Return_Air_Mixer a brick:HVAC_Equipment ;
+    rdfs:label "East Return Air Mixer" ;
+    rdfs:comment "EnergyPlus AirLoopHVAC:ZoneMixer on this zone's return-air path." ;
+    brick:feeds bldg:ahu_East_Zone_Air_System .
+
+bldg:return_mixer_Zone_Return_Air_Mixer a brick:HVAC_Equipment ;
+    rdfs:label "Zone Return Air Mixer" ;
+    rdfs:comment "EnergyPlus AirLoopHVAC:ZoneMixer on this zone's return-air path." ;
+    brick:feeds bldg:ahu_West_Zone_Air_System .
+
+bldg:surface_PZn001_CeilingE a ext:BuildingSurface ;
+    rdfs:label "PZn001:CeilingE" ;
+    ext:areaM2 259.08 ;
+    ext:outsideBoundaryCondition "Surface" .
+
+bldg:surface_PZn001_CeilingW a ext:BuildingSurface ;
+    rdfs:label "PZn001:CeilingW" ;
+    ext:areaM2 232.258 ;
+    ext:outsideBoundaryCondition "Surface" .
+
+bldg:surface_PZn001_Flr001E a ext:BuildingSurface ;
+    rdfs:label "PZn001:Flr001E" ;
+    ext:areaM2 259.08 ;
+    ext:outsideBoundaryCondition "Ground" .
+
+bldg:surface_PZn001_Flr001W a ext:BuildingSurface ;
+    rdfs:label "PZn001:Flr001W" ;
+    ext:areaM2 232.258 ;
+    ext:outsideBoundaryCondition "Ground" .
+
+bldg:surface_PZn001_Partiton001 a ext:BuildingSurface ;
+    rdfs:label "PZn001:Partiton001" ;
+    ext:areaM2 7.62 ;
+    ext:outsideBoundaryCondition "Surface" .
+
+bldg:surface_PZn001_Wall001E a ext:BuildingSurface ;
+    rdfs:label "PZn001:Wall001E" ;
+    ext:areaM2 8.5 ;
+    ext:outsideBoundaryCondition "Outdoors" .
+
+bldg:surface_PZn001_Wall001W a ext:BuildingSurface ;
+    rdfs:label "PZn001:Wall001W" ;
+    ext:areaM2 7.62 ;
+    ext:outsideBoundaryCondition "Outdoors" .
+
+bldg:surface_PZn001_Wall002 a ext:BuildingSurface ;
+    rdfs:label "PZn001:Wall002" ;
+    ext:areaM2 7.62 ;
+    ext:outsideBoundaryCondition "Outdoors" .
+
+bldg:surface_PZn001_Wall003E a ext:BuildingSurface ;
+    rdfs:label "PZn001:Wall003E" ;
+    ext:areaM2 8.5 ;
+    ext:outsideBoundaryCondition "Outdoors" .
+
+bldg:surface_PZn001_Wall003W a ext:BuildingSurface ;
+    rdfs:label "PZn001:Wall003W" ;
+    ext:areaM2 7.62 ;
+    ext:outsideBoundaryCondition "Outdoors" .
+
+bldg:surface_PZn001_Wall004 a ext:BuildingSurface ;
+    rdfs:label "PZn001:Wall004" ;
+    ext:areaM2 7.62 ;
+    ext:outsideBoundaryCondition "Outdoors" .
+
+bldg:surface_PZn002_Partiton001 a ext:BuildingSurface ;
+    rdfs:label "PZn002:Partiton001" ;
+    ext:areaM2 7.62 ;
+    ext:outsideBoundaryCondition "Surface" .
+
+bldg:surface_Zn001_Flr001E a ext:BuildingSurface ;
+    rdfs:label "Zn001:Flr001E" ;
+    ext:areaM2 259.08 ;
+    ext:outsideBoundaryCondition "Surface" .
+
+bldg:surface_Zn001_Flr001W a ext:BuildingSurface ;
+    rdfs:label "Zn001:Flr001W" ;
+    ext:areaM2 232.258 ;
+    ext:outsideBoundaryCondition "Surface" .
+
+bldg:surface_Zn001_Partiton001 a ext:BuildingSurface ;
+    rdfs:label "Zn001:Partiton001" ;
+    ext:areaM2 62.057 ;
+    ext:outsideBoundaryCondition "Surface" .
+
+bldg:surface_Zn001_Roof001E a ext:BuildingSurface ;
+    rdfs:label "Zn001:Roof001E" ;
+    ext:areaM2 259.08 ;
+    ext:outsideBoundaryCondition "Outdoors" .
+
+bldg:surface_Zn001_Roof001W a ext:BuildingSurface ;
+    rdfs:label "Zn001:Roof001W" ;
+    ext:areaM2 232.258 ;
+    ext:outsideBoundaryCondition "Outdoors" .
+
+bldg:surface_Zn001_Wall001E a ext:BuildingSurface ;
+    rdfs:label "Zn001:Wall001E" ;
+    ext:areaM2 69.224 ;
+    ext:outsideBoundaryCondition "Outdoors" .
+
+bldg:surface_Zn001_Wall001W a ext:BuildingSurface ;
+    rdfs:label "Zn001:Wall001W" ;
+    ext:areaM2 62.057 ;
+    ext:outsideBoundaryCondition "Outdoors" .
+
+bldg:surface_Zn001_Wall002 a ext:BuildingSurface ;
+    rdfs:label "Zn001:Wall002" ;
+    ext:areaM2 62.057 ;
+    ext:outsideBoundaryCondition "Outdoors" .
+
+bldg:surface_Zn001_Wall003E a ext:BuildingSurface ;
+    rdfs:label "Zn001:Wall003E" ;
+    ext:areaM2 69.224 ;
+    ext:outsideBoundaryCondition "Outdoors" .
+
+bldg:surface_Zn001_Wall003W a ext:BuildingSurface ;
+    rdfs:label "Zn001:Wall003W" ;
+    ext:areaM2 62.057 ;
+    ext:outsideBoundaryCondition "Outdoors" .
+
+bldg:surface_Zn001_Wall004 a ext:BuildingSurface ;
+    rdfs:label "Zn001:Wall004" ;
+    ext:areaM2 62.057 ;
+    ext:outsideBoundaryCondition "Outdoors" .
+
+bldg:surface_Zn002_Partiton001 a ext:BuildingSurface ;
+    rdfs:label "Zn002:Partiton001" ;
+    ext:areaM2 62.057 ;
+    ext:outsideBoundaryCondition "Surface" .
+
+bldg:timeseries_ref_HVAC_electricity_demand_rate a ref:TimeseriesReference ;
+    rdfs:label "HVAC_electricity_demand_rate" ;
+    ref:hasTimeseriesId "HVAC_electricity_demand_rate" .
+
+bldg:timeseries_ref_HVAC_electricity_energy_j a ref:TimeseriesReference ;
+    rdfs:label "HVAC_electricity_energy_j" ;
+    ref:hasTimeseriesId "HVAC_electricity_energy_j" .
+
+bldg:timeseries_ref_diffuse_solar_radiation a ref:TimeseriesReference ;
+    rdfs:label "diffuse_solar_radiation" ;
+    ref:hasTimeseriesId "diffuse_solar_radiation" .
+
+bldg:timeseries_ref_direct_solar_radiation a ref:TimeseriesReference ;
+    rdfs:label "direct_solar_radiation" ;
+    ref:hasTimeseriesId "direct_solar_radiation" .
+
+bldg:timeseries_ref_east_dx_sensible_cooling_rate a ref:TimeseriesReference ;
+    rdfs:label "east_dx_sensible_cooling_rate" ;
+    ref:hasTimeseriesId "east_dx_sensible_cooling_rate" .
+
+bldg:timeseries_ref_east_dx_total_cooling_rate a ref:TimeseriesReference ;
+    rdfs:label "east_dx_total_cooling_rate" ;
+    ref:hasTimeseriesId "east_dx_total_cooling_rate" .
+
+bldg:timeseries_ref_east_ite_cpu_electricity_rate a ref:TimeseriesReference ;
+    rdfs:label "east_ite_cpu_electricity_rate" ;
+    ref:hasTimeseriesId "east_ite_cpu_electricity_rate" .
+
+bldg:timeseries_ref_east_mass_flow_rate a ref:TimeseriesReference ;
+    rdfs:label "east_mass_flow_rate" ;
+    ref:hasTimeseriesId "east_mass_flow_rate" .
+
+bldg:timeseries_ref_east_return_temperature a ref:TimeseriesReference ;
+    rdfs:label "east_return_temperature" ;
+    ref:hasTimeseriesId "east_return_temperature" .
+
+bldg:timeseries_ref_east_supply_temperature a ref:TimeseriesReference ;
+    rdfs:label "east_supply_temperature" ;
+    ref:hasTimeseriesId "east_supply_temperature" .
+
+bldg:timeseries_ref_east_zone_air_humidity a ref:TimeseriesReference ;
+    rdfs:label "east_zone_air_humidity" ;
+    ref:hasTimeseriesId "east_zone_air_humidity" .
+
+bldg:timeseries_ref_east_zone_air_temperature a ref:TimeseriesReference ;
+    rdfs:label "east_zone_air_temperature" ;
+    ref:hasTimeseriesId "east_zone_air_temperature" .
+
+bldg:timeseries_ref_east_zone_clg_setpoint a ref:TimeseriesReference ;
+    rdfs:label "east_zone_clg_setpoint" ;
+    ref:hasTimeseriesId "east_zone_clg_setpoint" .
+
+bldg:timeseries_ref_east_zone_htg_setpoint a ref:TimeseriesReference ;
+    rdfs:label "east_zone_htg_setpoint" ;
+    ref:hasTimeseriesId "east_zone_htg_setpoint" .
+
+bldg:timeseries_ref_east_zone_mean_radiant_temperature a ref:TimeseriesReference ;
+    rdfs:label "east_zone_mean_radiant_temperature" ;
+    ref:hasTimeseriesId "east_zone_mean_radiant_temperature" .
+
+bldg:timeseries_ref_outdoor_humidity a ref:TimeseriesReference ;
+    rdfs:label "outdoor_humidity" ;
+    ref:hasTimeseriesId "outdoor_humidity" .
+
+bldg:timeseries_ref_outdoor_temperature a ref:TimeseriesReference ;
+    rdfs:label "outdoor_temperature" ;
+    ref:hasTimeseriesId "outdoor_temperature" .
+
+bldg:timeseries_ref_west_dx_sensible_cooling_rate a ref:TimeseriesReference ;
+    rdfs:label "west_dx_sensible_cooling_rate" ;
+    ref:hasTimeseriesId "west_dx_sensible_cooling_rate" .
+
+bldg:timeseries_ref_west_dx_total_cooling_rate a ref:TimeseriesReference ;
+    rdfs:label "west_dx_total_cooling_rate" ;
+    ref:hasTimeseriesId "west_dx_total_cooling_rate" .
+
+bldg:timeseries_ref_west_ite_cpu_electricity_rate a ref:TimeseriesReference ;
+    rdfs:label "west_ite_cpu_electricity_rate" ;
+    ref:hasTimeseriesId "west_ite_cpu_electricity_rate" .
+
+bldg:timeseries_ref_west_mass_flow_rate a ref:TimeseriesReference ;
+    rdfs:label "west_mass_flow_rate" ;
+    ref:hasTimeseriesId "west_mass_flow_rate" .
+
+bldg:timeseries_ref_west_return_temperature a ref:TimeseriesReference ;
+    rdfs:label "west_return_temperature" ;
+    ref:hasTimeseriesId "west_return_temperature" .
+
+bldg:timeseries_ref_west_supply_temperature a ref:TimeseriesReference ;
+    rdfs:label "west_supply_temperature" ;
+    ref:hasTimeseriesId "west_supply_temperature" .
+
+bldg:timeseries_ref_west_zone_air_humidity a ref:TimeseriesReference ;
+    rdfs:label "west_zone_air_humidity" ;
+    ref:hasTimeseriesId "west_zone_air_humidity" .
+
+bldg:timeseries_ref_west_zone_air_temperature a ref:TimeseriesReference ;
+    rdfs:label "west_zone_air_temperature" ;
+    ref:hasTimeseriesId "west_zone_air_temperature" .
+
+bldg:timeseries_ref_west_zone_clg_setpoint a ref:TimeseriesReference ;
+    rdfs:label "west_zone_clg_setpoint" ;
+    ref:hasTimeseriesId "west_zone_clg_setpoint" .
+
+bldg:timeseries_ref_west_zone_htg_setpoint a ref:TimeseriesReference ;
+    rdfs:label "west_zone_htg_setpoint" ;
+    ref:hasTimeseriesId "west_zone_htg_setpoint" .
+
+bldg:timeseries_ref_west_zone_mean_radiant_temperature a ref:TimeseriesReference ;
+    rdfs:label "west_zone_mean_radiant_temperature" ;
+    ref:hasTimeseriesId "west_zone_mean_radiant_temperature" .
+
+bldg:timeseries_ref_wind_direction a ref:TimeseriesReference ;
+    rdfs:label "wind_direction" ;
+    ref:hasTimeseriesId "wind_direction" .
+
+bldg:timeseries_ref_wind_speed a ref:TimeseriesReference ;
+    rdfs:label "wind_speed" ;
+    ref:hasTimeseriesId "wind_speed" .
+
+unit:KiloGM-PER-SEC a qudt:Unit .
+
+unit:W-PER-M2 a qudt:Unit .
+
+bldg:equipment_East_Data_Center_DEC a brick:HVAC_Equipment ;
+    rdfs:label "East Data Center DEC" ;
+    brick:feeds bldg:equipment_East_Data_Center_IEC ;
+    ext:energyPlusObjectType "EvaporativeCooler:Direct:ResearchSpecial" .
+
+bldg:equipment_East_Data_Center_IEC a brick:HVAC_Equipment ;
+    rdfs:label "East Data Center IEC" ;
+    brick:feeds bldg:equipment_East_Zone_DX_Cooling_Coil ;
+    ext:energyPlusObjectType "EvaporativeCooler:Indirect:ResearchSpecial" .
+
+bldg:equipment_East_Zone_CW_Cooling_Coil a brick:Cooling_Coil ;
+    rdfs:label "East Zone CW Cooling Coil" ;
+    brick:feeds bldg:equipment_East_Zone_Electric_Heating_Coil ;
+    ext:energyPlusObjectType "Coil:Cooling:Water" .
+
+bldg:equipment_East_Zone_DX_Cooling_Coil a brick:Direct_Expansion_Cooling_Coil ;
+    rdfs:label "East Zone DX Cooling Coil" ;
+    brick:feeds bldg:equipment_East_Zone_CW_Cooling_Coil ;
+    brick:hasPoint bldg:point_East_DX_Sensible_Cooling_Rate,
+        bldg:point_East_DX_Total_Cooling_Rate ;
+    ext:energyPlusObjectType "CoilSystem:Cooling:DX" .
+
+bldg:equipment_East_Zone_Electric_Heating_Coil a brick:Heating_Coil ;
+    rdfs:label "East Zone Electric Heating Coil" ;
+    brick:feeds bldg:vav_East_Zone_VAV_System ;
+    ext:energyPlusObjectType "Coil:Heating:Electric" .
+
+bldg:equipment_East_Zone_Supply_Fan a brick:Supply_Fan ;
+    rdfs:label "East Zone Supply Fan" ;
+    brick:feeds bldg:equipment_East_Data_Center_DEC ;
+    ext:energyPlusObjectType "Fan:VariableVolume" .
+
+bldg:equipment_West_Data_Center_DEC a brick:HVAC_Equipment ;
+    rdfs:label "West Data Center DEC" ;
+    brick:feeds bldg:equipment_West_Data_Center_IEC ;
+    ext:energyPlusObjectType "EvaporativeCooler:Direct:ResearchSpecial" .
+
+bldg:equipment_West_Data_Center_IEC a brick:HVAC_Equipment ;
+    rdfs:label "West Data Center IEC" ;
+    brick:feeds bldg:equipment_West_Zone_DX_Cooling_Coil ;
+    ext:energyPlusObjectType "EvaporativeCooler:Indirect:ResearchSpecial" .
+
+bldg:equipment_West_Zone_CW_Cooling_Coil a brick:Cooling_Coil ;
+    rdfs:label "West Zone CW Cooling Coil" ;
+    brick:feeds bldg:equipment_West_Zone_Electric_Heating_Coil ;
+    ext:energyPlusObjectType "Coil:Cooling:Water" .
+
+bldg:equipment_West_Zone_DX_Cooling_Coil a brick:Direct_Expansion_Cooling_Coil ;
+    rdfs:label "West Zone DX Cooling Coil" ;
+    brick:feeds bldg:equipment_West_Zone_CW_Cooling_Coil ;
+    brick:hasPoint bldg:point_West_DX_Sensible_Cooling_Rate,
+        bldg:point_West_DX_Total_Cooling_Rate ;
+    ext:energyPlusObjectType "CoilSystem:Cooling:DX" .
+
+bldg:equipment_West_Zone_Electric_Heating_Coil a brick:Heating_Coil ;
+    rdfs:label "West Zone Electric Heating Coil" ;
+    brick:feeds bldg:vav_West_Zone_VAV_System ;
+    ext:energyPlusObjectType "Coil:Heating:Electric" .
+
+bldg:equipment_West_Zone_Supply_Fan a brick:Supply_Fan ;
+    rdfs:label "West Zone Supply Fan" ;
+    brick:feeds bldg:equipment_West_Data_Center_DEC ;
+    ext:energyPlusObjectType "Fan:VariableVolume" .
+
+bldg:point_East_Cooling_Setpoint a brick:Cooling_Zone_Air_Temperature_Setpoint ;
+    rdfs:label "East Cooling Setpoint" ;
+    rdfs:comment "Dual-setpoint thermostat; EnergyPlus schedule East Cooling Setpoints." ;
+    brick:hasUnit unit:DEG_C ;
+    ref:hasExternalReference bldg:timeseries_ref_east_zone_clg_setpoint .
+
+bldg:point_East_Heating_Setpoint a brick:Heating_Zone_Air_Temperature_Setpoint ;
+    rdfs:label "East Heating Setpoint" ;
+    rdfs:comment "Dual-setpoint thermostat; EnergyPlus schedule East Heating Setpoints." ;
+    brick:hasUnit unit:DEG_C ;
+    ref:hasExternalReference bldg:timeseries_ref_east_zone_htg_setpoint .
+
+bldg:point_West_Cooling_Setpoint a brick:Cooling_Zone_Air_Temperature_Setpoint ;
+    rdfs:label "West Cooling Setpoint" ;
+    rdfs:comment "Dual-setpoint thermostat; EnergyPlus schedule West Cooling Setpoints." ;
+    brick:hasUnit unit:DEG_C ;
+    ref:hasExternalReference bldg:timeseries_ref_west_zone_clg_setpoint .
+
+bldg:point_West_Heating_Setpoint a brick:Heating_Zone_Air_Temperature_Setpoint ;
+    rdfs:label "West Heating Setpoint" ;
+    rdfs:comment "Dual-setpoint thermostat; EnergyPlus schedule West Heating Setpoints." ;
+    brick:hasUnit unit:DEG_C ;
+    ref:hasExternalReference bldg:timeseries_ref_west_zone_htg_setpoint .
+
+bldg:zone_East_Plenum a brick:HVAC_Zone ;
+    rdfs:label "East Plenum" ;
+    ext:adjacentTo bldg:zone_East_Zone,
+        bldg:zone_West_Plenum ;
+    ext:dominantExteriorAzimuthDeg 90.0 ;
+    ext:exteriorRoofAreaM2 0.0 ;
+    ext:exteriorWallAreaM2 24.62 ;
+    ext:floorAreaM2 259.08 ;
+    ext:hasEnvelopeSurface bldg:surface_PZn001_CeilingE,
+        bldg:surface_PZn001_Flr001E,
+        bldg:surface_PZn001_Wall001E,
+        bldg:surface_PZn001_Wall002,
+        bldg:surface_PZn001_Wall003E,
+        bldg:surface_PZn002_Partiton001 .
+
+unit:PERCENT a qudt:Unit .
+
+bldg:ahu_East_Zone_Air_System a brick:Air_Handling_Unit ;
+    rdfs:label "East Zone Air System" ;
+    brick:feeds bldg:vav_East_Zone_VAV_System ;
+    brick:hasLocation bldg:building_2ZoneDataCenterHVAC_wEconomizer_DX ;
+    brick:hasPart bldg:equipment_East_Data_Center_DEC,
+        bldg:equipment_East_Data_Center_IEC,
+        bldg:equipment_East_Zone_CW_Cooling_Coil,
+        bldg:equipment_East_Zone_DX_Cooling_Coil,
+        bldg:equipment_East_Zone_Electric_Heating_Coil,
+        bldg:equipment_East_Zone_OA_System,
+        bldg:equipment_East_Zone_Supply_Fan,
+        bldg:plenum_East_Supply_Plenum .
+
+bldg:ahu_West_Zone_Air_System a brick:Air_Handling_Unit ;
+    rdfs:label "West Zone Air System" ;
+    brick:feeds bldg:vav_West_Zone_VAV_System ;
+    brick:hasLocation bldg:building_2ZoneDataCenterHVAC_wEconomizer_DX ;
+    brick:hasPart bldg:equipment_West_Data_Center_DEC,
+        bldg:equipment_West_Data_Center_IEC,
+        bldg:equipment_West_Zone_CW_Cooling_Coil,
+        bldg:equipment_West_Zone_DX_Cooling_Coil,
+        bldg:equipment_West_Zone_Electric_Heating_Coil,
+        bldg:equipment_West_Zone_OA_System,
+        bldg:equipment_West_Zone_Supply_Fan,
+        bldg:plenum_West_Supply_Plenum .
+
+bldg:vav_East_Zone_VAV_System a brick:Variable_Air_Volume_Box ;
+    rdfs:label "East Zone VAV System" ;
+    brick:feeds bldg:zone_East_Zone ;
+    brick:hasLocation bldg:zone_East_Zone .
+
+bldg:vav_West_Zone_VAV_System a brick:Variable_Air_Volume_Box ;
+    rdfs:label "West Zone VAV System" ;
+    brick:feeds bldg:zone_West_Zone ;
+    brick:hasLocation bldg:zone_West_Zone .
+
+bldg:zone_West_Plenum a brick:HVAC_Zone ;
+    rdfs:label "West Plenum" ;
+    ext:adjacentTo bldg:zone_West_Zone ;
+    ext:dominantExteriorAzimuthDeg 270.0 ;
+    ext:exteriorRoofAreaM2 0.0 ;
+    ext:exteriorWallAreaM2 22.86 ;
+    ext:floorAreaM2 232.258 ;
+    ext:hasEnvelopeSurface bldg:surface_PZn001_CeilingW,
+        bldg:surface_PZn001_Flr001W,
+        bldg:surface_PZn001_Partiton001,
+        bldg:surface_PZn001_Wall001W,
+        bldg:surface_PZn001_Wall003W,
+        bldg:surface_PZn001_Wall004 .
+
+bldg:building_2ZoneDataCenterHVAC_wEconomizer_DX a brick:Building ;
+    rdfs:label "2ZoneDataCenterHVAC_wEconomizer_DX" ;
+    brick:hasPart bldg:zone_East_Plenum,
+        bldg:zone_East_Zone,
+        bldg:zone_West_Plenum,
+        bldg:zone_West_Zone ;
+    brick:hasPoint bldg:point_Facility_HVAC_Electricity_Demand,
+        bldg:point_Facility_HVAC_Electricity_Energy .
+
+unit:W a qudt:Unit .
+
+bldg:zone_East_Zone a brick:HVAC_Zone ;
+    rdfs:label "East Zone" ;
+    brick:hasPoint bldg:point_East_Cooling_Setpoint,
+        bldg:point_East_Heating_Setpoint,
+        bldg:point_East_Mean_Radiant_Temperature,
+        bldg:point_East_Return_Air_Temperature,
+        bldg:point_East_Supply_Air_Mass_Flow,
+        bldg:point_East_Supply_Air_Temperature,
+        bldg:point_East_Zone_Air_Humidity,
+        bldg:point_East_Zone_Air_Temperature ;
+    ext:adjacentTo bldg:zone_East_Plenum,
+        bldg:zone_West_Zone ;
+    ext:dominantExteriorAzimuthDeg 90.0 ;
+    ext:exteriorRoofAreaM2 259.08 ;
+    ext:exteriorWallAreaM2 200.505 ;
+    ext:floorAreaM2 259.08 ;
+    ext:hasEnvelopeSurface bldg:surface_Zn001_Flr001E,
+        bldg:surface_Zn001_Roof001E,
+        bldg:surface_Zn001_Wall001E,
+        bldg:surface_Zn001_Wall002,
+        bldg:surface_Zn001_Wall003E,
+        bldg:surface_Zn002_Partiton001 ;
+    ext:returnPathFrom bldg:return_mixer_East_Return_Air_Mixer .
+
+bldg:zone_West_Zone a brick:HVAC_Zone ;
+    rdfs:label "West Zone" ;
+    brick:hasPoint bldg:point_West_Cooling_Setpoint,
+        bldg:point_West_Heating_Setpoint,
+        bldg:point_West_Mean_Radiant_Temperature,
+        bldg:point_West_Return_Air_Temperature,
+        bldg:point_West_Supply_Air_Mass_Flow,
+        bldg:point_West_Supply_Air_Temperature,
+        bldg:point_West_Zone_Air_Humidity,
+        bldg:point_West_Zone_Air_Temperature ;
+    ext:adjacentTo bldg:zone_East_Zone,
+        bldg:zone_West_Plenum ;
+    ext:dominantExteriorAzimuthDeg 270.0 ;
+    ext:exteriorRoofAreaM2 232.258 ;
+    ext:exteriorWallAreaM2 186.172 ;
+    ext:floorAreaM2 232.258 ;
+    ext:hasEnvelopeSurface bldg:surface_Zn001_Flr001W,
+        bldg:surface_Zn001_Partiton001,
+        bldg:surface_Zn001_Roof001W,
+        bldg:surface_Zn001_Wall001W,
+        bldg:surface_Zn001_Wall003W,
+        bldg:surface_Zn001_Wall004 ;
+    ext:returnPathFrom bldg:return_mixer_Zone_Return_Air_Mixer .
+
+unit:DEG_C a qudt:Unit .
+

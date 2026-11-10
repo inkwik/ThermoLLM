@@ -37,9 +37,8 @@ from darlin import DarlinGenerator  # Reuse the official model API and JSON extr
 from sinergym.utils.wrappers import CSVLogger, LoggerWrapper
 
 
-# Paths are inside /workspaces/proj/codes because this script runs in the existing container.
 ROOT = Path(__file__).resolve().parent
-sys.path.insert(0, str(ROOT.parent))
+sys.path.insert(0, str(ROOT.parents[1] / "common"))
 from pmv_energy_metrics import PMV_LOWER, PMV_UPPER
 
 TEXT_DIR = ROOT / "data" / "text"
@@ -1222,7 +1221,6 @@ def main() -> None:
     # Reuse shared occupied-PMV/HVAC-energy calculations with custom new-PMV inputs.
     observations_csv = workspace / "episode-1" / "monitor" / "observations.csv"
     if observations_csv.is_file():
-        sys.path.insert(0, str(ROOT.parent))
         import pandas as pd
 
         metrics = compute_pmv_energy_only_metrics(

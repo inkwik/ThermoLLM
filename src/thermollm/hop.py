@@ -1,5 +1,7 @@
+# Brick graph helpers for loading HVAC topology and retrieving point metadata.
 from __future__ import annotations
 
+import os
 from pathlib import Path
 from typing import Any, Iterable, Mapping
 
@@ -11,8 +13,10 @@ from rdflib.namespace import RDF, RDFS
 # TTL FILE PATH
 # ============================================================
 TTL_FILE = Path(
-    "/workspaces/proj/sinergym/data/buildings/"
-    "5ZoneAutoDXVAVnw_brick.ttl"
+    os.environ.get(
+        "BRICK_TTL_PATH",
+        "/workspaces/proj/sinergym/data/buildings/5ZoneAutoDXVAVnw_brick.ttl",
+    )
 )
 
 

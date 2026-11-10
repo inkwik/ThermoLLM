@@ -1,0 +1,228 @@
+"""Implementation of basic controllers."""
+
+from datetime import datetime
+from typing import Any, List, Sequence
+
+import numpy as np
+from gymnasium import Env
+
+from sinergym.utils.constants import YEAR
+
+
+class RandomController(object):
+
+    def __init__(self, env: Env):
+        """Random agent. It selects available actions randomly.
+
+        Args:
+            env (Env): Simulation environment.
+        """
+        self.env = env
+
+    def act(self) -> Sequence[Any]:
+        """Selects a random action from the environment's action_space.
+
+        Returns:
+            Sequence[Any]: Action chosen.
+        """
+        action = self.env.action_space.sample()
+        return action
+
+
+class RBC5Zone(object):
+
+    def __init__(self, env: Env) -> None:
+        """Agent based on static rules for controlling 5ZoneAutoDXVAV setpoints.
+        Based on ASHRAE Standard 55-2004: Thermal Environmental Conditions for Human Occupancy.
+
+        Args:
+            env (Env): Simulation environment
+        """
+
+        self.env = env
+
+        self.observation_variables = env.get_wrapper_attr('observation_variables')
+        self.action_variables = env.get_wrapper_attr('action_variables')
+
+        self.setpoints_summer = np.array((23.0, 26.0), dtype=np.float32)
+        self.setpoints_winter = np.array((20.0, 23.5), dtype=np.float32)
+
+    def act(self, observation: List[Any]) -> np.ndarray:
+        """Select action based on indoor temperature.
+
+        Args:
+            observation (List[Any]): Perceived observation.
+
+        Returns:
+            np.ndarray: Action chosen.
+        """
+        obs_dict = dict(zip(self.observation_variables, observation))
+        year = int(obs_dict['year']) if obs_dict.get('year', False) else YEAR
+        month = int(obs_dict['month'])
+        day = int(obs_dict['day_of_month'])
+
+        summer_start_date = datetime(year, 6, 1)
+        summer_final_date = datetime(year, 9, 30)
+
+        current_dt = datetime(year, month, day)
+
+        # Get season comfort range
+        if (
+            current_dt >= summer_start_date and current_dt <= summer_final_date
+        ):  # pragma: no cover
+            season_range = self.setpoints_summer
+        else:  # pragma: no cover
+            season_range = self.setpoints_winter
+
+        return season_range
+
+
+class RBC5ZoneZonal(object):
+
+    def __init__(self, env: Env, min_gap: float = 0.5) -> None:
+        """Rule-based controller assigning per-zone setpoints in the 5-zone building."""
+
+        self.env = env
+        self.observation_variables = env.get_wrapper_attr('observation_variables')
+
+        self.action_low = env.action_space.low
+        self.action_high = env.action_space.high
+        self.min_gap = min_gap
+
+        self.occupied_heating = 21.0
+        self.occupied_cooling = 24.0
+        self.unoccupied_heating = 18.0
+        self.unoccupied_cooling = 27.0
+        self.temp_tolerance = 0.5
+        self.adjust_step = 0.5
+
+        self.zone_order = [
+            {
+                'temperature': f'air_temperature_space{idx}',
+                'occupancy': f'air_occ_space{idx}',
+            }
+            for idx in range(1, 6)
+        ]
+
+    def act(self, observation: List[Any]) -> np.ndarray:
+        """Select action for each zone based on current temperature and occupancy."""
+
+        obs_dict = dict(zip(self.observation_variables, observation))
+        actions: List[float] = []
+
+        for zone_index, zone in enumerate(self.zone_order):
+            temp = obs_dict.get(zone['temperature'], 0.0)
+            occupied = obs_dict.get(zone['occupancy'], 0.0) > 0.0
+
+            heat_target = (
+                self.occupied_heating if occupied else self.unoccupied_heating
+            )
+            cool_target = (
+                self.occupied_cooling if occupied else self.unoccupied_cooling
+            )
+
+            if temp > cool_target + self.temp_tolerance:
+                cool_target -= self.adjust_step
+            elif temp < heat_target - self.temp_tolerance:
+                heat_target += self.adjust_step
+
+            heat_target = self._clip_to_bounds(
+                heat_target, zone_index * 2
+            )
+            cool_target = self._clip_to_bounds(
+                cool_target, zone_index * 2 + 1
+            )
+
+            if cool_target - heat_target < self.min_gap:
+                midpoint = (cool_target + heat_target) / 2
+                heat_target = max(
+                    midpoint - self.min_gap / 2,
+                    self.action_low[zone_index * 2],
+                )
+                cool_target = min(
+                    midpoint + self.min_gap / 2,
+                    self.action_high[zone_index * 2 + 1],
+                )
+
+            actions.extend([heat_target, cool_target])
+
+        return np.array(actions, dtype=np.float32)
+
+    def _clip_to_bounds(self, value: float, action_index: int) -> float:
+        return float(
+            min(
+                max(value, self.action_low[action_index]),
+                self.action_high[action_index],
+            )
+        )
+
+
+class RBCDatacenter(object):
+
+    def __init__(self, env: Env) -> None:
+        """Agent based on static rules for controlling 2ZoneDataCenterHVAC setpoints.
+        Follows the ASHRAE recommended temperature ranges for data centers described in ASHRAE TC9.9 (2016).
+
+        Args:
+            env (Env): Simulation environment
+        """
+
+        self.env = env
+        self.observation_variables = env.get_wrapper_attr('observation_variables')
+        self.action_variables = env.get_wrapper_attr('action_variables')
+
+        # ASHRAE recommended temperature range = [18, 27] Celsius
+        self.range_datacenter = np.array((18, 27), dtype=np.float32)
+
+    def act(self) -> np.ndarray:
+        """Select same action always, corresponding with comfort range.
+
+        Returns:
+            np.ndarray: Action chosen.
+        """
+        return self.range_datacenter
+
+
+class RBCIncrementalDatacenter(object):
+
+    def __init__(self, env: Env) -> None:
+        """Agent based on rules for controlling 2ZoneDataCenterHVAC setpoints in a incremental way.
+        Follows the ASHRAE recommended temperature ranges for data centers described in ASHRAE TC9.9 (2016).
+        Args:
+            env (Env): Simulation environment
+        """
+
+        self.env = env
+        self.observation_variables = env.get_wrapper_attr('observation_variables')
+        self.action_variables = env.get_wrapper_attr('action_variables')
+
+        # ASHRAE recommended temperature range = [18, 27] Celsius
+        self.range_datacenter = (18, 27)
+
+    def act(self, observation: List[Any]) -> np.ndarray:
+        """Select action based on indoor temperature.
+        Args:
+            observation (List[Any]): Perceived observation.
+        Returns:
+            Sequence[Any]: Action chosen.
+        """
+        obs_dict = dict(zip(self.observation_variables, observation))
+
+        # Mean temp in datacenter zones
+        mean_temp = np.mean(
+            [
+                obs_dict['west_zone_air_temperature'],
+                obs_dict['east_zone_air_temperature'],
+            ]
+        )
+
+        current_cool_setpoint = obs_dict['clg_setpoint']
+
+        new_cool_setpoint = current_cool_setpoint
+
+        if mean_temp < self.range_datacenter[0]:  # pragma: no cover
+            new_cool_setpoint = current_cool_setpoint + 1
+        elif mean_temp > self.range_datacenter[1]:  # pragma: no cover
+            new_cool_setpoint = current_cool_setpoint - 1
+
+        return np.array([new_cool_setpoint], dtype=np.float32)

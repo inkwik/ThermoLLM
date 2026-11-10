@@ -1,3 +1,5 @@
+# Build Brick spatiotemporal context from 5zone building config for HVAC control.
+
 from __future__ import annotations
 
 import os
@@ -16,19 +18,19 @@ import sinergym  # noqa: F401
 from sinergym.utils.wrappers import CSVLogger, LoggerWrapper
 
 TTL_CANDIDATES = [
-    Path("/mnt/kb/sinergym/sinergym/data/buildings/5ZoneAutoDXVAVnw_brick.ttl"),
     Path("/mnt/kb/sinergym/data/buildings/5ZoneAutoDXVAVnw_brick.ttl"),
-    Path("/workspaces/proj/sinergym/sinergym/data/buildings/5ZoneAutoDXVAVnw_brick.ttl"),
-    Path("/workspaces/proj/sinergym/data/buildings/5ZoneAutoDXVAVnw_brick.ttl"),
 ]
 
 ENV_ID = os.environ.get(
     "BRICK_PREVIEW_ENV_ID",
-    "Eplus-5zone-zonal-chicago-continuous-v1",
+    "Eplus-5zone-zonal-arizona-continuous-v1",
 )
+PMV_SOURCE = os.environ.get("PMV_SOURCE", "custom").strip().lower()
+if PMV_SOURCE not in {"custom", "energyplus"}:
+    raise ValueError("PMV_SOURCE must be 'custom' or 'energyplus'")
 BUILDING_CONFIG = {
     "timesteps_per_hour": 4,
-    "runperiod": (1, 7, 1991, 1, 7, 1991),
+    "runperiod": (1, 6, 1991, 7, 6, 1991),
 }
 MAX_PREVIEW_STEPS = int(os.environ.get("MAX_PREVIEW_STEPS", "5"))
 MAX_HISTORY = 10
@@ -85,6 +87,12 @@ def setpoints_for_zone(month: int, occupancy_value: float) -> tuple[float, float
     return UNOCC_HEAT, UNOCC_COOL
 
 
+def pmv_observation_name(zi: int) -> str:
+    """Return the same PMV observation selected by controller.py."""
+    prefix = "new_pmv_space" if PMV_SOURCE == "custom" else "pmv_space"
+    return f"{prefix}{zi}"
+
+
 def build_action(obs: np.ndarray, obs_idx: dict[str, int]) -> np.ndarray:
     month = int(obs[obs_idx["month"]])
     action_values: list[float] = []
@@ -126,7 +134,9 @@ def current_timeseries_values(obs_dict: dict[str, float]) -> dict[str, float | N
         )
         occ_value = obs_dict.get(f"air_occ_space{zi}")
         current[f"sinergym:air_occ_space{zi}"] = 1.0 if (occ_value or 0.0) > 0.0 else 0.0
-        current[f"sinergym:pmv_space{zi}"] = obs_dict.get(f"pmv_space{zi}")
+        # Keep the Brick reference key from the TTL, but source its value from
+        # the controller-selected PMV observation (custom by default).
+        current[f"sinergym:pmv_space{zi}"] = obs_dict.get(pmv_observation_name(zi))
         current[f"sinergym:damper_position_space{zi}"] = obs_dict.get(
             f"damper_position_space{zi}"
         )
@@ -223,7 +233,8 @@ def point_value_key(
     if "wind speed sensor" in type_text:
         return f"wind_speed_at_{step_text}_time:{time_text}"
     if reference and reference.startswith("sinergym:pmv_space"):
-        return f"pmv_before_{step_text}_action_time:{time_text}"
+        zi = int(reference.rsplit("space", 1)[-1])
+        return f"{pmv_observation_name(zi)}_before_{step_text}_action_time:{time_text}"
 
     return f"observed_before_{step_text}_action_time:{time_text}"
 
@@ -247,6 +258,9 @@ def point_history_key(
         return f"hvac_energy_history_for_previous_actions_{time_range}"
     if "setpoint" in type_text or "setpoint" in label_text:
         return f"active_setpoint_history_from_actions_{time_range}"
+    if reference and reference.startswith("sinergym:pmv_space"):
+        zi = int(reference.rsplit("space", 1)[-1])
+        return f"{pmv_observation_name(zi)}_history_{time_range}"
     return f"observed_history_{time_range}"
 
 

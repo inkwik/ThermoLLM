@@ -1,0 +1,21 @@
+{
+  "source_model": "5ZoneAutoDXVAVnw.epJSON",
+  "target_model": "SingleZoneOpenPlanOffice.epJSON",
+  "conditioned_zones": [
+    "OFFICE-1"
+  ],
+  "zone_count": 1,
+  "exterior_surface_count": 14,
+  "fenestration_count": 6,
+  "partition_internal_mass_area_m2": 397.391558,
+  "ceiling_internal_mass_area_m2": 927.2,
+  "design_occupants": 107,
+  "lighting_w": 7500.0,
+  "equipment_w": 5000.0,
+  "infiltration_design_flow_m3_s": 0.078829,
+  "air_terminal_count": 1,
+  "thermostat_count": 1,
+  "return_plenum_present": false,
+  "return_mixer_count": 1,
+  "occupancy_schedule": "/workspaces/proj/codes/occupancy_schedules_15min/OFFICE-1_occupancy_fraction_15min.csv"
+}

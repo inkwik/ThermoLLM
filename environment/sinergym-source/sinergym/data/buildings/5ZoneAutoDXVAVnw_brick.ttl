@@ -1,0 +1,800 @@
+@prefix bldg: <https://example.org/sinergym/5zone#> .
+@prefix brick: <https://brickschema.org/schema/Brick#> .
+@prefix ext: <urn:sinergym-brick-ext#> .
+@prefix rdf: <http://www.w3.org/1999/02/22-rdf-syntax-ns#> .
+@prefix rdfs: <http://www.w3.org/2000/01/rdf-schema#> .
+@prefix ref: <https://brickschema.org/schema/Brick/ref#> .
+@prefix skos: <http://www.w3.org/2004/02/skos/core#> .
+@prefix unit: <http://qudt.org/vocab/unit/> .
+@prefix xsd: <http://www.w3.org/2001/XMLSchema#> .
+
+bldg:air_loop_VAV_Sys_1 a brick:Air_Loop ;
+    rdfs:label "VAV Sys 1" ;
+    rdfs:comment "Central air-side path: outdoor-air mixing section -> main DX cooling coil -> main heating coil -> supply fan -> VAV dampers -> VAV reheat coils -> served zones. Return path: served zones -> return plenum -> VAV Sys 1. Served zones: SPACE1-1, SPACE2-1, SPACE3-1, SPACE4-1, SPACE5-1." ;
+    brick:hasLocation bldg:building_id_5ZoneAutoDXVAVnw ;
+    brick:hasPart bldg:ahu_VAV_Sys_1,
+        bldg:vav_SPACE1_1_VAV_Reheat,
+        bldg:vav_SPACE2_1_VAV_Reheat,
+        bldg:vav_SPACE3_1_VAV_Reheat,
+        bldg:vav_SPACE4_1_VAV_Reheat,
+        bldg:vav_SPACE5_1_VAV_Reheat ;
+    brick:hasPoint bldg:point_HVAC_Electricity_Energy .
+
+bldg:equipment_SPACE1_1_ElecEq_1 a brick:Electrical_Equipment ;
+    rdfs:label "SPACE1-1 ElecEq 1" ;
+    rdfs:comment "Derived from EnergyPlus ElectricEquipment object; design_equipment_w=1056.000" ;
+    brick:hasLocation bldg:zone_SPACE1_1 .
+
+bldg:equipment_SPACE2_1_ElecEq_1 a brick:Electrical_Equipment ;
+    rdfs:label "SPACE2-1 ElecEq 1" ;
+    rdfs:comment "Derived from EnergyPlus ElectricEquipment object; design_equipment_w=456.000" ;
+    brick:hasLocation bldg:zone_SPACE2_1 .
+
+bldg:equipment_SPACE3_1_ElecEq_1 a brick:Electrical_Equipment ;
+    rdfs:label "SPACE3-1 ElecEq 1" ;
+    rdfs:comment "Derived from EnergyPlus ElectricEquipment object; design_equipment_w=1056.000" ;
+    brick:hasLocation bldg:zone_SPACE3_1 .
+
+bldg:equipment_SPACE4_1_ElecEq_1 a brick:Electrical_Equipment ;
+    rdfs:label "SPACE4-1 ElecEq 1" ;
+    rdfs:comment "Derived from EnergyPlus ElectricEquipment object; design_equipment_w=456.000" ;
+    brick:hasLocation bldg:zone_SPACE4_1 .
+
+bldg:equipment_SPACE5_1_ElecEq_1 a brick:Electrical_Equipment ;
+    rdfs:label "SPACE5-1 ElecEq 1" ;
+    rdfs:comment "Derived from EnergyPlus ElectricEquipment object; design_equipment_w=1976.000" ;
+    brick:hasLocation bldg:zone_SPACE5_1 .
+
+bldg:lighting_SPACE1_1_Lights_1 a brick:Lighting_System ;
+    rdfs:label "SPACE1-1 Lights 1" ;
+    rdfs:comment "Derived from EnergyPlus Lights object; design_lighting_w=1584.000" ;
+    brick:hasLocation bldg:zone_SPACE1_1 .
+
+bldg:lighting_SPACE2_1_Lights_1 a brick:Lighting_System ;
+    rdfs:label "SPACE2-1 Lights 1" ;
+    rdfs:comment "Derived from EnergyPlus Lights object; design_lighting_w=684.000" ;
+    brick:hasLocation bldg:zone_SPACE2_1 .
+
+bldg:lighting_SPACE3_1_Lights_1 a brick:Lighting_System ;
+    rdfs:label "SPACE3-1 Lights 1" ;
+    rdfs:comment "Derived from EnergyPlus Lights object; design_lighting_w=1584.000" ;
+    brick:hasLocation bldg:zone_SPACE3_1 .
+
+bldg:lighting_SPACE4_1_Lights_1 a brick:Lighting_System ;
+    rdfs:label "SPACE4-1 Lights 1" ;
+    rdfs:comment "Derived from EnergyPlus Lights object; design_lighting_w=684.000" ;
+    brick:hasLocation bldg:zone_SPACE4_1 .
+
+bldg:lighting_SPACE5_1_Lights_1 a brick:Lighting_System ;
+    rdfs:label "SPACE5-1 Lights 1" ;
+    rdfs:comment "Derived from EnergyPlus Lights object; design_lighting_w=2964.000" ;
+    brick:hasLocation bldg:zone_SPACE5_1 .
+
+bldg:plenum_Return_Plenum_1 a brick:Return_Air_Plenum ;
+    rdfs:label "Return-Plenum-1" ;
+    brick:feeds bldg:ahu_VAV_Sys_1 ;
+    brick:hasLocation bldg:zone_PLENUM_1 .
+
+bldg:site_CHICAGO_IL_USA_TMY2_94846 a brick:Site ;
+    rdfs:label "CHICAGO_IL_USA TMY2-94846" ;
+    brick:hasPart bldg:building_id_5ZoneAutoDXVAVnw,
+        bldg:weather_Site_Weather_Station ;
+    brick:latitude 4.178e+01 ;
+    brick:longitude -8.775e+01 .
+
+bldg:thermostat_SPACE1_1_Control a brick:Thermostat ;
+    rdfs:label "SPACE1-1 Control" ;
+    brick:hasLocation bldg:zone_SPACE1_1 ;
+    brick:hasPoint bldg:point_SPACE1_1_CoolingSetPoint,
+        bldg:point_SPACE1_1_HeatingSetPoint .
+
+bldg:thermostat_SPACE2_1_Control a brick:Thermostat ;
+    rdfs:label "SPACE2-1 Control" ;
+    brick:hasLocation bldg:zone_SPACE2_1 ;
+    brick:hasPoint bldg:point_SPACE2_1_CoolingSetPoint,
+        bldg:point_SPACE2_1_HeatingSetPoint .
+
+bldg:thermostat_SPACE3_1_Control a brick:Thermostat ;
+    rdfs:label "SPACE3-1 Control" ;
+    brick:hasLocation bldg:zone_SPACE3_1 ;
+    brick:hasPoint bldg:point_SPACE3_1_CoolingSetPoint,
+        bldg:point_SPACE3_1_HeatingSetPoint .
+
+bldg:thermostat_SPACE4_1_Control a brick:Thermostat ;
+    rdfs:label "SPACE4-1 Control" ;
+    brick:hasLocation bldg:zone_SPACE4_1 ;
+    brick:hasPoint bldg:point_SPACE4_1_CoolingSetPoint,
+        bldg:point_SPACE4_1_HeatingSetPoint .
+
+bldg:thermostat_SPACE5_1_Control a brick:Thermostat ;
+    rdfs:label "SPACE5-1 Control" ;
+    brick:hasLocation bldg:zone_SPACE5_1 ;
+    brick:hasPoint bldg:point_SPACE5_1_CoolingSetPoint,
+        bldg:point_SPACE5_1_HeatingSetPoint .
+
+bldg:coil_Main_Cooling_Coil_1 a brick:Direct_Expansion_Cooling_Coil ;
+    rdfs:label "Main Cooling Coil 1" ;
+    brick:feeds bldg:coil_Main_heating_Coil_1 .
+
+bldg:point_Direct_Solar_Radiation a brick:Solar_Irradiance_Sensor ;
+    rdfs:label "Direct Solar Radiation" ;
+    brick:hasUnit unit:W-PER-M2 ;
+    ref:hasExternalReference bldg:timeseries_ref_sinergym_direct_solar_radiation .
+
+bldg:point_HVAC_Electricity_Energy a brick:Electrical_Energy_Usage_Sensor ;
+    rdfs:label "HVAC Electricity Energy" ;
+    brick:hasUnit unit:KiloW-HR ;
+    ref:hasExternalReference bldg:timeseries_ref_sinergym_total_hvac_energy_kwh .
+
+bldg:point_Mixed_Air_and_Coil_Exit_Temp_Manager_1 a brick:Mixed_Air_Temperature_Setpoint ;
+    rdfs:label "Mixed Air and Coil Exit Temp Manager 1" .
+
+bldg:point_Outdoor_Air_Humidity a brick:Outside_Air_Humidity_Sensor ;
+    rdfs:label "Outdoor Air Humidity" ;
+    brick:hasUnit unit:PERCENT ;
+    ref:hasExternalReference bldg:timeseries_ref_sinergym_outdoor_humidity .
+
+bldg:point_Outdoor_Air_Temperature a brick:Outside_Air_Temperature_Sensor ;
+    rdfs:label "Outdoor Air Temperature" ;
+    brick:hasUnit unit:DEG_C ;
+    ref:hasExternalReference bldg:timeseries_ref_sinergym_outdoor_temperature .
+
+bldg:point_SPACE1_1_Occupancy a brick:Occupancy_Sensor ;
+    rdfs:label "SPACE1-1 Occupancy" ;
+    rdfs:comment "Derived from People object; design_people_count=22.000" ;
+    brick:hasUnit unit:UNITLESS ;
+    ref:hasExternalReference bldg:timeseries_ref_sinergym_air_occ_space1 .
+
+bldg:point_SPACE1_1_PMV a brick:Sensor ;
+    rdfs:label "SPACE1-1 PMV" ;
+    rdfs:comment "PMV is a runtime comfort indicator produced by the simulation; Brick has no dedicated PMV point class, so a generic Brick Sensor is used." ;
+    brick:hasUnit unit:UNITLESS ;
+    ref:hasExternalReference bldg:timeseries_ref_sinergym_pmv_space1 .
+
+bldg:point_SPACE1_1_Zone_Air_Humidity a brick:Zone_Air_Humidity_Sensor ;
+    rdfs:label "SPACE1-1 Zone Air Humidity" ;
+    brick:hasUnit unit:PERCENT ;
+    ref:hasExternalReference bldg:timeseries_ref_sinergym_air_humidity_space1 .
+
+bldg:point_SPACE1_1_Zone_Air_Temperature a brick:Zone_Air_Temperature_Sensor ;
+    rdfs:label "SPACE1-1 Zone Air Temperature" ;
+    brick:hasUnit unit:DEG_C ;
+    ref:hasExternalReference bldg:timeseries_ref_sinergym_air_temperature_space1 .
+
+bldg:point_SPACE2_1_Occupancy a brick:Occupancy_Sensor ;
+    rdfs:label "SPACE2-1 Occupancy" ;
+    rdfs:comment "Derived from People object; design_people_count=16.000" ;
+    brick:hasUnit unit:UNITLESS ;
+    ref:hasExternalReference bldg:timeseries_ref_sinergym_air_occ_space2 .
+
+bldg:point_SPACE2_1_PMV a brick:Sensor ;
+    rdfs:label "SPACE2-1 PMV" ;
+    rdfs:comment "PMV is a runtime comfort indicator produced by the simulation; Brick has no dedicated PMV point class, so a generic Brick Sensor is used." ;
+    brick:hasUnit unit:UNITLESS ;
+    ref:hasExternalReference bldg:timeseries_ref_sinergym_pmv_space2 .
+
+bldg:point_SPACE2_1_Zone_Air_Humidity a brick:Zone_Air_Humidity_Sensor ;
+    rdfs:label "SPACE2-1 Zone Air Humidity" ;
+    brick:hasUnit unit:PERCENT ;
+    ref:hasExternalReference bldg:timeseries_ref_sinergym_air_humidity_space2 .
+
+bldg:point_SPACE2_1_Zone_Air_Temperature a brick:Zone_Air_Temperature_Sensor ;
+    rdfs:label "SPACE2-1 Zone Air Temperature" ;
+    brick:hasUnit unit:DEG_C ;
+    ref:hasExternalReference bldg:timeseries_ref_sinergym_air_temperature_space2 .
+
+bldg:point_SPACE3_1_Occupancy a brick:Occupancy_Sensor ;
+    rdfs:label "SPACE3-1 Occupancy" ;
+    rdfs:comment "Derived from People object; design_people_count=18.000" ;
+    brick:hasUnit unit:UNITLESS ;
+    ref:hasExternalReference bldg:timeseries_ref_sinergym_air_occ_space3 .
+
+bldg:point_SPACE3_1_PMV a brick:Sensor ;
+    rdfs:label "SPACE3-1 PMV" ;
+    rdfs:comment "PMV is a runtime comfort indicator produced by the simulation; Brick has no dedicated PMV point class, so a generic Brick Sensor is used." ;
+    brick:hasUnit unit:UNITLESS ;
+    ref:hasExternalReference bldg:timeseries_ref_sinergym_pmv_space3 .
+
+bldg:point_SPACE3_1_Zone_Air_Humidity a brick:Zone_Air_Humidity_Sensor ;
+    rdfs:label "SPACE3-1 Zone Air Humidity" ;
+    brick:hasUnit unit:PERCENT ;
+    ref:hasExternalReference bldg:timeseries_ref_sinergym_air_humidity_space3 .
+
+bldg:point_SPACE3_1_Zone_Air_Temperature a brick:Zone_Air_Temperature_Sensor ;
+    rdfs:label "SPACE3-1 Zone Air Temperature" ;
+    brick:hasUnit unit:DEG_C ;
+    ref:hasExternalReference bldg:timeseries_ref_sinergym_air_temperature_space3 .
+
+bldg:point_SPACE4_1_Occupancy a brick:Occupancy_Sensor ;
+    rdfs:label "SPACE4-1 Occupancy" ;
+    rdfs:comment "Derived from People object; design_people_count=13.000" ;
+    brick:hasUnit unit:UNITLESS ;
+    ref:hasExternalReference bldg:timeseries_ref_sinergym_air_occ_space4 .
+
+bldg:point_SPACE4_1_PMV a brick:Sensor ;
+    rdfs:label "SPACE4-1 PMV" ;
+    rdfs:comment "PMV is a runtime comfort indicator produced by the simulation; Brick has no dedicated PMV point class, so a generic Brick Sensor is used." ;
+    brick:hasUnit unit:UNITLESS ;
+    ref:hasExternalReference bldg:timeseries_ref_sinergym_pmv_space4 .
+
+bldg:point_SPACE4_1_Zone_Air_Humidity a brick:Zone_Air_Humidity_Sensor ;
+    rdfs:label "SPACE4-1 Zone Air Humidity" ;
+    brick:hasUnit unit:PERCENT ;
+    ref:hasExternalReference bldg:timeseries_ref_sinergym_air_humidity_space4 .
+
+bldg:point_SPACE4_1_Zone_Air_Temperature a brick:Zone_Air_Temperature_Sensor ;
+    rdfs:label "SPACE4-1 Zone Air Temperature" ;
+    brick:hasUnit unit:DEG_C ;
+    ref:hasExternalReference bldg:timeseries_ref_sinergym_air_temperature_space4 .
+
+bldg:point_SPACE5_1_Occupancy a brick:Occupancy_Sensor ;
+    rdfs:label "SPACE5-1 Occupancy" ;
+    rdfs:comment "Derived from People object; design_people_count=38.000" ;
+    brick:hasUnit unit:UNITLESS ;
+    ref:hasExternalReference bldg:timeseries_ref_sinergym_air_occ_space5 .
+
+bldg:point_SPACE5_1_PMV a brick:Sensor ;
+    rdfs:label "SPACE5-1 PMV" ;
+    rdfs:comment "PMV is a runtime comfort indicator produced by the simulation; Brick has no dedicated PMV point class, so a generic Brick Sensor is used." ;
+    brick:hasUnit unit:UNITLESS ;
+    ref:hasExternalReference bldg:timeseries_ref_sinergym_pmv_space5 .
+
+bldg:point_SPACE5_1_Zone_Air_Humidity a brick:Zone_Air_Humidity_Sensor ;
+    rdfs:label "SPACE5-1 Zone Air Humidity" ;
+    brick:hasUnit unit:PERCENT ;
+    ref:hasExternalReference bldg:timeseries_ref_sinergym_air_humidity_space5 .
+
+bldg:point_SPACE5_1_Zone_Air_Temperature a brick:Zone_Air_Temperature_Sensor ;
+    rdfs:label "SPACE5-1 Zone Air Temperature" ;
+    brick:hasUnit unit:DEG_C ;
+    ref:hasExternalReference bldg:timeseries_ref_sinergym_air_temperature_space5 .
+
+bldg:point_Site_Wind_Speed a brick:Wind_Speed_Sensor ;
+    rdfs:label "Site Wind Speed" ;
+    brick:hasUnit unit:M-PER-SEC ;
+    ref:hasExternalReference bldg:timeseries_ref_sinergym_wind_speed .
+
+bldg:point_Supply_Air_Temp_Manager_1 a brick:Supply_Air_Temperature_Setpoint ;
+    rdfs:label "Supply Air Temp Manager 1" .
+
+bldg:timeseries_ref_sinergym_air_humidity_space1 a ref:TimeseriesReference ;
+    rdfs:label "sinergym:air_humidity_space1" ;
+    rdf:value "sinergym:air_humidity_space1" ;
+    skos:definition "Sinergym observation variable for SPACE1-1 indoor relative humidity." .
+
+bldg:timeseries_ref_sinergym_air_humidity_space2 a ref:TimeseriesReference ;
+    rdfs:label "sinergym:air_humidity_space2" ;
+    rdf:value "sinergym:air_humidity_space2" ;
+    skos:definition "Sinergym observation variable for SPACE2-1 indoor relative humidity." .
+
+bldg:timeseries_ref_sinergym_air_humidity_space3 a ref:TimeseriesReference ;
+    rdfs:label "sinergym:air_humidity_space3" ;
+    rdf:value "sinergym:air_humidity_space3" ;
+    skos:definition "Sinergym observation variable for SPACE3-1 indoor relative humidity." .
+
+bldg:timeseries_ref_sinergym_air_humidity_space4 a ref:TimeseriesReference ;
+    rdfs:label "sinergym:air_humidity_space4" ;
+    rdf:value "sinergym:air_humidity_space4" ;
+    skos:definition "Sinergym observation variable for SPACE4-1 indoor relative humidity." .
+
+bldg:timeseries_ref_sinergym_air_humidity_space5 a ref:TimeseriesReference ;
+    rdfs:label "sinergym:air_humidity_space5" ;
+    rdf:value "sinergym:air_humidity_space5" ;
+    skos:definition "Sinergym observation variable for SPACE5-1 indoor relative humidity." .
+
+bldg:timeseries_ref_sinergym_air_occ_space1 a ref:TimeseriesReference ;
+    rdfs:label "sinergym:air_occ_space1" ;
+    rdf:value "sinergym:air_occ_space1" ;
+    skos:definition "Sinergym observation variable for SPACE1-1 occupancy state; runtime is currently treated as binary." .
+
+bldg:timeseries_ref_sinergym_air_occ_space2 a ref:TimeseriesReference ;
+    rdfs:label "sinergym:air_occ_space2" ;
+    rdf:value "sinergym:air_occ_space2" ;
+    skos:definition "Sinergym observation variable for SPACE2-1 occupancy state; runtime is currently treated as binary." .
+
+bldg:timeseries_ref_sinergym_air_occ_space3 a ref:TimeseriesReference ;
+    rdfs:label "sinergym:air_occ_space3" ;
+    rdf:value "sinergym:air_occ_space3" ;
+    skos:definition "Sinergym observation variable for SPACE3-1 occupancy state; runtime is currently treated as binary." .
+
+bldg:timeseries_ref_sinergym_air_occ_space4 a ref:TimeseriesReference ;
+    rdfs:label "sinergym:air_occ_space4" ;
+    rdf:value "sinergym:air_occ_space4" ;
+    skos:definition "Sinergym observation variable for SPACE4-1 occupancy state; runtime is currently treated as binary." .
+
+bldg:timeseries_ref_sinergym_air_occ_space5 a ref:TimeseriesReference ;
+    rdfs:label "sinergym:air_occ_space5" ;
+    rdf:value "sinergym:air_occ_space5" ;
+    skos:definition "Sinergym observation variable for SPACE5-1 occupancy state; runtime is currently treated as binary." .
+
+bldg:timeseries_ref_sinergym_air_temperature_space1 a ref:TimeseriesReference ;
+    rdfs:label "sinergym:air_temperature_space1" ;
+    rdf:value "sinergym:air_temperature_space1" ;
+    skos:definition "Sinergym observation variable for SPACE1-1 indoor air temperature." .
+
+bldg:timeseries_ref_sinergym_air_temperature_space2 a ref:TimeseriesReference ;
+    rdfs:label "sinergym:air_temperature_space2" ;
+    rdf:value "sinergym:air_temperature_space2" ;
+    skos:definition "Sinergym observation variable for SPACE2-1 indoor air temperature." .
+
+bldg:timeseries_ref_sinergym_air_temperature_space3 a ref:TimeseriesReference ;
+    rdfs:label "sinergym:air_temperature_space3" ;
+    rdf:value "sinergym:air_temperature_space3" ;
+    skos:definition "Sinergym observation variable for SPACE3-1 indoor air temperature." .
+
+bldg:timeseries_ref_sinergym_air_temperature_space4 a ref:TimeseriesReference ;
+    rdfs:label "sinergym:air_temperature_space4" ;
+    rdf:value "sinergym:air_temperature_space4" ;
+    skos:definition "Sinergym observation variable for SPACE4-1 indoor air temperature." .
+
+bldg:timeseries_ref_sinergym_air_temperature_space5 a ref:TimeseriesReference ;
+    rdfs:label "sinergym:air_temperature_space5" ;
+    rdf:value "sinergym:air_temperature_space5" ;
+    skos:definition "Sinergym observation variable for SPACE5-1 indoor air temperature." .
+
+bldg:timeseries_ref_sinergym_clg_setpoint_space1 a ref:TimeseriesReference ;
+    rdfs:label "sinergym:clg_setpoint_space1" ;
+    rdf:value "sinergym:clg_setpoint_space1" ;
+    skos:definition "Sinergym observation variable for SPACE1-1 cooling setpoint." .
+
+bldg:timeseries_ref_sinergym_clg_setpoint_space2 a ref:TimeseriesReference ;
+    rdfs:label "sinergym:clg_setpoint_space2" ;
+    rdf:value "sinergym:clg_setpoint_space2" ;
+    skos:definition "Sinergym observation variable for SPACE2-1 cooling setpoint." .
+
+bldg:timeseries_ref_sinergym_clg_setpoint_space3 a ref:TimeseriesReference ;
+    rdfs:label "sinergym:clg_setpoint_space3" ;
+    rdf:value "sinergym:clg_setpoint_space3" ;
+    skos:definition "Sinergym observation variable for SPACE3-1 cooling setpoint." .
+
+bldg:timeseries_ref_sinergym_clg_setpoint_space4 a ref:TimeseriesReference ;
+    rdfs:label "sinergym:clg_setpoint_space4" ;
+    rdf:value "sinergym:clg_setpoint_space4" ;
+    skos:definition "Sinergym observation variable for SPACE4-1 cooling setpoint." .
+
+bldg:timeseries_ref_sinergym_clg_setpoint_space5 a ref:TimeseriesReference ;
+    rdfs:label "sinergym:clg_setpoint_space5" ;
+    rdf:value "sinergym:clg_setpoint_space5" ;
+    skos:definition "Sinergym observation variable for SPACE5-1 cooling setpoint." .
+
+bldg:timeseries_ref_sinergym_damper_position_space1 a ref:TimeseriesReference ;
+    rdfs:label "sinergym:damper_position_space1" ;
+    rdf:value "sinergym:damper_position_space1" ;
+    skos:definition "Sinergym observation variable for SPACE1-1 damper position." .
+
+bldg:timeseries_ref_sinergym_damper_position_space2 a ref:TimeseriesReference ;
+    rdfs:label "sinergym:damper_position_space2" ;
+    rdf:value "sinergym:damper_position_space2" ;
+    skos:definition "Sinergym observation variable for SPACE2-1 damper position." .
+
+bldg:timeseries_ref_sinergym_damper_position_space3 a ref:TimeseriesReference ;
+    rdfs:label "sinergym:damper_position_space3" ;
+    rdf:value "sinergym:damper_position_space3" ;
+    skos:definition "Sinergym observation variable for SPACE3-1 damper position." .
+
+bldg:timeseries_ref_sinergym_damper_position_space4 a ref:TimeseriesReference ;
+    rdfs:label "sinergym:damper_position_space4" ;
+    rdf:value "sinergym:damper_position_space4" ;
+    skos:definition "Sinergym observation variable for SPACE4-1 damper position." .
+
+bldg:timeseries_ref_sinergym_damper_position_space5 a ref:TimeseriesReference ;
+    rdfs:label "sinergym:damper_position_space5" ;
+    rdf:value "sinergym:damper_position_space5" ;
+    skos:definition "Sinergym observation variable for SPACE5-1 damper position." .
+
+bldg:timeseries_ref_sinergym_direct_solar_radiation a ref:TimeseriesReference ;
+    rdfs:label "sinergym:direct_solar_radiation" ;
+    rdf:value "sinergym:direct_solar_radiation" ;
+    skos:definition "Sinergym observation variable for direct solar radiation rate per area." .
+
+bldg:timeseries_ref_sinergym_htg_setpoint_space1 a ref:TimeseriesReference ;
+    rdfs:label "sinergym:htg_setpoint_space1" ;
+    rdf:value "sinergym:htg_setpoint_space1" ;
+    skos:definition "Sinergym observation variable for SPACE1-1 heating setpoint." .
+
+bldg:timeseries_ref_sinergym_htg_setpoint_space2 a ref:TimeseriesReference ;
+    rdfs:label "sinergym:htg_setpoint_space2" ;
+    rdf:value "sinergym:htg_setpoint_space2" ;
+    skos:definition "Sinergym observation variable for SPACE2-1 heating setpoint." .
+
+bldg:timeseries_ref_sinergym_htg_setpoint_space3 a ref:TimeseriesReference ;
+    rdfs:label "sinergym:htg_setpoint_space3" ;
+    rdf:value "sinergym:htg_setpoint_space3" ;
+    skos:definition "Sinergym observation variable for SPACE3-1 heating setpoint." .
+
+bldg:timeseries_ref_sinergym_htg_setpoint_space4 a ref:TimeseriesReference ;
+    rdfs:label "sinergym:htg_setpoint_space4" ;
+    rdf:value "sinergym:htg_setpoint_space4" ;
+    skos:definition "Sinergym observation variable for SPACE4-1 heating setpoint." .
+
+bldg:timeseries_ref_sinergym_htg_setpoint_space5 a ref:TimeseriesReference ;
+    rdfs:label "sinergym:htg_setpoint_space5" ;
+    rdf:value "sinergym:htg_setpoint_space5" ;
+    skos:definition "Sinergym observation variable for SPACE5-1 heating setpoint." .
+
+bldg:timeseries_ref_sinergym_outdoor_humidity a ref:TimeseriesReference ;
+    rdfs:label "sinergym:outdoor_humidity" ;
+    rdf:value "sinergym:outdoor_humidity" ;
+    skos:definition "Sinergym observation variable for site outdoor relative humidity." .
+
+bldg:timeseries_ref_sinergym_outdoor_temperature a ref:TimeseriesReference ;
+    rdfs:label "sinergym:outdoor_temperature" ;
+    rdf:value "sinergym:outdoor_temperature" ;
+    skos:definition "Sinergym observation variable for site outdoor dry-bulb temperature." .
+
+bldg:timeseries_ref_sinergym_pmv_space1 a ref:TimeseriesReference ;
+    rdfs:label "sinergym:pmv_space1" ;
+    rdf:value "sinergym:pmv_space1" ;
+    skos:definition "Sinergym observation variable for SPACE1-1 Fanger PMV." .
+
+bldg:timeseries_ref_sinergym_pmv_space2 a ref:TimeseriesReference ;
+    rdfs:label "sinergym:pmv_space2" ;
+    rdf:value "sinergym:pmv_space2" ;
+    skos:definition "Sinergym observation variable for SPACE2-1 Fanger PMV." .
+
+bldg:timeseries_ref_sinergym_pmv_space3 a ref:TimeseriesReference ;
+    rdfs:label "sinergym:pmv_space3" ;
+    rdf:value "sinergym:pmv_space3" ;
+    skos:definition "Sinergym observation variable for SPACE3-1 Fanger PMV." .
+
+bldg:timeseries_ref_sinergym_pmv_space4 a ref:TimeseriesReference ;
+    rdfs:label "sinergym:pmv_space4" ;
+    rdf:value "sinergym:pmv_space4" ;
+    skos:definition "Sinergym observation variable for SPACE4-1 Fanger PMV." .
+
+bldg:timeseries_ref_sinergym_pmv_space5 a ref:TimeseriesReference ;
+    rdfs:label "sinergym:pmv_space5" ;
+    rdf:value "sinergym:pmv_space5" ;
+    skos:definition "Sinergym observation variable for SPACE5-1 Fanger PMV." .
+
+bldg:timeseries_ref_sinergym_total_hvac_energy_kwh a ref:TimeseriesReference ;
+    rdfs:label "sinergym:total_hvac_energy_kwh" ;
+    rdf:value "sinergym:total_hvac_energy_kwh" ;
+    skos:definition "Derived Sinergym runtime series for HVAC electricity converted to per-step kWh." .
+
+bldg:timeseries_ref_sinergym_wind_speed a ref:TimeseriesReference ;
+    rdfs:label "sinergym:wind_speed" ;
+    rdf:value "sinergym:wind_speed" ;
+    skos:definition "Sinergym observation variable for site wind speed." .
+
+bldg:weather_Site_Weather_Station a brick:Weather_Station ;
+    rdfs:label "Site Weather Station" ;
+    brick:hasPoint bldg:point_Direct_Solar_Radiation,
+        bldg:point_Outdoor_Air_Humidity,
+        bldg:point_Outdoor_Air_Temperature,
+        bldg:point_Site_Wind_Speed .
+
+bldg:ahu_VAV_Sys_1 a brick:Air_Handling_Unit ;
+    rdfs:label "VAV Sys 1" ;
+    rdfs:comment "EnergyPlus outdoor-air section: OutdoorAirSystem=OA Sys 1; OutdoorAirMixer=OA Mixing Box 1 (mixed_air_node=Mixed Air Node 1, return_air_node=VAV Sys 1 Inlet Node, outside_air_node=Outside Air Inlet Node 1); OutdoorAirController=OA Controller 1 (economizer_control_type=FixedDryBulb, minimum_limit_type=ProportionalMinimum)." ;
+    brick:hasLocation bldg:building_id_5ZoneAutoDXVAVnw ;
+    brick:hasPart bldg:coil_Main_Cooling_Coil_1,
+        bldg:coil_Main_heating_Coil_1,
+        bldg:fan_Supply_Fan_1 ;
+    brick:hasPoint bldg:point_Mixed_Air_and_Coil_Exit_Temp_Manager_1,
+        bldg:point_Supply_Air_Temp_Manager_1 .
+
+bldg:coil_Main_heating_Coil_1 a brick:Heating_Coil ;
+    rdfs:label "Main heating Coil 1" ;
+    brick:feeds bldg:fan_Supply_Fan_1 .
+
+bldg:coil_SPACE1_1_Zone_Coil a brick:Heating_Coil ;
+    rdfs:label "SPACE1-1 Zone Coil" ;
+    brick:feeds bldg:zone_SPACE1_1 .
+
+bldg:coil_SPACE2_1_Zone_Coil a brick:Heating_Coil ;
+    rdfs:label "SPACE2-1 Zone Coil" ;
+    brick:feeds bldg:zone_SPACE2_1 .
+
+bldg:coil_SPACE3_1_Zone_Coil a brick:Heating_Coil ;
+    rdfs:label "SPACE3-1 Zone Coil" ;
+    brick:feeds bldg:zone_SPACE3_1 .
+
+bldg:coil_SPACE4_1_Zone_Coil a brick:Heating_Coil ;
+    rdfs:label "SPACE4-1 Zone Coil" ;
+    brick:feeds bldg:zone_SPACE4_1 .
+
+bldg:coil_SPACE5_1_Zone_Coil a brick:Heating_Coil ;
+    rdfs:label "SPACE5-1 Zone Coil" ;
+    brick:feeds bldg:zone_SPACE5_1 .
+
+bldg:damper_SPACE1_1_VAV_Reheat_Damper a brick:Damper ;
+    rdfs:label "SPACE1-1 VAV Reheat Damper" ;
+    rdfs:comment "Inferred standard Brick damper derived from EnergyPlus AirTerminal:SingleDuct:VAV:Reheat terminal behavior." ;
+    brick:feeds bldg:coil_SPACE1_1_Zone_Coil ;
+    brick:hasPoint bldg:point_SPACE1_1_Damper_Position .
+
+bldg:damper_SPACE2_1_VAV_Reheat_Damper a brick:Damper ;
+    rdfs:label "SPACE2-1 VAV Reheat Damper" ;
+    rdfs:comment "Inferred standard Brick damper derived from EnergyPlus AirTerminal:SingleDuct:VAV:Reheat terminal behavior." ;
+    brick:feeds bldg:coil_SPACE2_1_Zone_Coil ;
+    brick:hasPoint bldg:point_SPACE2_1_Damper_Position .
+
+bldg:damper_SPACE3_1_VAV_Reheat_Damper a brick:Damper ;
+    rdfs:label "SPACE3-1 VAV Reheat Damper" ;
+    rdfs:comment "Inferred standard Brick damper derived from EnergyPlus AirTerminal:SingleDuct:VAV:Reheat terminal behavior." ;
+    brick:feeds bldg:coil_SPACE3_1_Zone_Coil ;
+    brick:hasPoint bldg:point_SPACE3_1_Damper_Position .
+
+bldg:damper_SPACE4_1_VAV_Reheat_Damper a brick:Damper ;
+    rdfs:label "SPACE4-1 VAV Reheat Damper" ;
+    rdfs:comment "Inferred standard Brick damper derived from EnergyPlus AirTerminal:SingleDuct:VAV:Reheat terminal behavior." ;
+    brick:feeds bldg:coil_SPACE4_1_Zone_Coil ;
+    brick:hasPoint bldg:point_SPACE4_1_Damper_Position .
+
+bldg:damper_SPACE5_1_VAV_Reheat_Damper a brick:Damper ;
+    rdfs:label "SPACE5-1 VAV Reheat Damper" ;
+    rdfs:comment "Inferred standard Brick damper derived from EnergyPlus AirTerminal:SingleDuct:VAV:Reheat terminal behavior." ;
+    brick:feeds bldg:coil_SPACE5_1_Zone_Coil ;
+    brick:hasPoint bldg:point_SPACE5_1_Damper_Position .
+
+bldg:fan_Supply_Fan_1 a brick:Supply_Fan ;
+    rdfs:label "Supply Fan 1" ;
+    brick:feeds bldg:damper_SPACE1_1_VAV_Reheat_Damper,
+        bldg:damper_SPACE2_1_VAV_Reheat_Damper,
+        bldg:damper_SPACE3_1_VAV_Reheat_Damper,
+        bldg:damper_SPACE4_1_VAV_Reheat_Damper,
+        bldg:damper_SPACE5_1_VAV_Reheat_Damper,
+        bldg:vav_SPACE1_1_VAV_Reheat,
+        bldg:vav_SPACE2_1_VAV_Reheat,
+        bldg:vav_SPACE3_1_VAV_Reheat,
+        bldg:vav_SPACE4_1_VAV_Reheat,
+        bldg:vav_SPACE5_1_VAV_Reheat .
+
+bldg:point_SPACE1_1_CoolingSetPoint a brick:Cooling_Zone_Air_Temperature_Setpoint ;
+    rdfs:label "SPACE1-1-CoolingSetPoint" ;
+    brick:hasUnit unit:DEG_C ;
+    ref:hasExternalReference bldg:timeseries_ref_sinergym_clg_setpoint_space1 .
+
+bldg:point_SPACE1_1_Damper_Position a brick:Damper_Position_Sensor ;
+    rdfs:label "SPACE1-1 Damper Position" ;
+    brick:hasUnit unit:UNITLESS ;
+    ref:hasExternalReference bldg:timeseries_ref_sinergym_damper_position_space1 .
+
+bldg:point_SPACE1_1_HeatingSetPoint a brick:Heating_Zone_Air_Temperature_Setpoint ;
+    rdfs:label "SPACE1-1-HeatingSetPoint" ;
+    brick:hasUnit unit:DEG_C ;
+    ref:hasExternalReference bldg:timeseries_ref_sinergym_htg_setpoint_space1 .
+
+bldg:point_SPACE2_1_CoolingSetPoint a brick:Cooling_Zone_Air_Temperature_Setpoint ;
+    rdfs:label "SPACE2-1-CoolingSetPoint" ;
+    brick:hasUnit unit:DEG_C ;
+    ref:hasExternalReference bldg:timeseries_ref_sinergym_clg_setpoint_space2 .
+
+bldg:point_SPACE2_1_Damper_Position a brick:Damper_Position_Sensor ;
+    rdfs:label "SPACE2-1 Damper Position" ;
+    brick:hasUnit unit:UNITLESS ;
+    ref:hasExternalReference bldg:timeseries_ref_sinergym_damper_position_space2 .
+
+bldg:point_SPACE2_1_HeatingSetPoint a brick:Heating_Zone_Air_Temperature_Setpoint ;
+    rdfs:label "SPACE2-1-HeatingSetPoint" ;
+    brick:hasUnit unit:DEG_C ;
+    ref:hasExternalReference bldg:timeseries_ref_sinergym_htg_setpoint_space2 .
+
+bldg:point_SPACE3_1_CoolingSetPoint a brick:Cooling_Zone_Air_Temperature_Setpoint ;
+    rdfs:label "SPACE3-1-CoolingSetPoint" ;
+    brick:hasUnit unit:DEG_C ;
+    ref:hasExternalReference bldg:timeseries_ref_sinergym_clg_setpoint_space3 .
+
+bldg:point_SPACE3_1_Damper_Position a brick:Damper_Position_Sensor ;
+    rdfs:label "SPACE3-1 Damper Position" ;
+    brick:hasUnit unit:UNITLESS ;
+    ref:hasExternalReference bldg:timeseries_ref_sinergym_damper_position_space3 .
+
+bldg:point_SPACE3_1_HeatingSetPoint a brick:Heating_Zone_Air_Temperature_Setpoint ;
+    rdfs:label "SPACE3-1-HeatingSetPoint" ;
+    brick:hasUnit unit:DEG_C ;
+    ref:hasExternalReference bldg:timeseries_ref_sinergym_htg_setpoint_space3 .
+
+bldg:point_SPACE4_1_CoolingSetPoint a brick:Cooling_Zone_Air_Temperature_Setpoint ;
+    rdfs:label "SPACE4-1-CoolingSetPoint" ;
+    brick:hasUnit unit:DEG_C ;
+    ref:hasExternalReference bldg:timeseries_ref_sinergym_clg_setpoint_space4 .
+
+bldg:point_SPACE4_1_Damper_Position a brick:Damper_Position_Sensor ;
+    rdfs:label "SPACE4-1 Damper Position" ;
+    brick:hasUnit unit:UNITLESS ;
+    ref:hasExternalReference bldg:timeseries_ref_sinergym_damper_position_space4 .
+
+bldg:point_SPACE4_1_HeatingSetPoint a brick:Heating_Zone_Air_Temperature_Setpoint ;
+    rdfs:label "SPACE4-1-HeatingSetPoint" ;
+    brick:hasUnit unit:DEG_C ;
+    ref:hasExternalReference bldg:timeseries_ref_sinergym_htg_setpoint_space4 .
+
+bldg:point_SPACE5_1_CoolingSetPoint a brick:Cooling_Zone_Air_Temperature_Setpoint ;
+    rdfs:label "SPACE5-1-CoolingSetPoint" ;
+    brick:hasUnit unit:DEG_C ;
+    ref:hasExternalReference bldg:timeseries_ref_sinergym_clg_setpoint_space5 .
+
+bldg:point_SPACE5_1_Damper_Position a brick:Damper_Position_Sensor ;
+    rdfs:label "SPACE5-1 Damper Position" ;
+    brick:hasUnit unit:UNITLESS ;
+    ref:hasExternalReference bldg:timeseries_ref_sinergym_damper_position_space5 .
+
+bldg:point_SPACE5_1_HeatingSetPoint a brick:Heating_Zone_Air_Temperature_Setpoint ;
+    rdfs:label "SPACE5-1-HeatingSetPoint" ;
+    brick:hasUnit unit:DEG_C ;
+    ref:hasExternalReference bldg:timeseries_ref_sinergym_htg_setpoint_space5 .
+
+bldg:vav_SPACE1_1_VAV_Reheat a brick:Variable_Air_Volume_Box_With_Reheat ;
+    rdfs:label "SPACE1-1 VAV Reheat" ;
+    rdfs:comment "Zone terminal path: central supply fan -> damper -> reheat coil -> SPACE1-1." ;
+    brick:feeds bldg:zone_SPACE1_1 ;
+    brick:hasLocation bldg:zone_SPACE1_1 ;
+    brick:hasPart bldg:coil_SPACE1_1_Zone_Coil,
+        bldg:damper_SPACE1_1_VAV_Reheat_Damper .
+
+bldg:vav_SPACE2_1_VAV_Reheat a brick:Variable_Air_Volume_Box_With_Reheat ;
+    rdfs:label "SPACE2-1 VAV Reheat" ;
+    rdfs:comment "Zone terminal path: central supply fan -> damper -> reheat coil -> SPACE2-1." ;
+    brick:feeds bldg:zone_SPACE2_1 ;
+    brick:hasLocation bldg:zone_SPACE2_1 ;
+    brick:hasPart bldg:coil_SPACE2_1_Zone_Coil,
+        bldg:damper_SPACE2_1_VAV_Reheat_Damper .
+
+bldg:vav_SPACE3_1_VAV_Reheat a brick:Variable_Air_Volume_Box_With_Reheat ;
+    rdfs:label "SPACE3-1 VAV Reheat" ;
+    rdfs:comment "Zone terminal path: central supply fan -> damper -> reheat coil -> SPACE3-1." ;
+    brick:feeds bldg:zone_SPACE3_1 ;
+    brick:hasLocation bldg:zone_SPACE3_1 ;
+    brick:hasPart bldg:coil_SPACE3_1_Zone_Coil,
+        bldg:damper_SPACE3_1_VAV_Reheat_Damper .
+
+bldg:vav_SPACE4_1_VAV_Reheat a brick:Variable_Air_Volume_Box_With_Reheat ;
+    rdfs:label "SPACE4-1 VAV Reheat" ;
+    rdfs:comment "Zone terminal path: central supply fan -> damper -> reheat coil -> SPACE4-1." ;
+    brick:feeds bldg:zone_SPACE4_1 ;
+    brick:hasLocation bldg:zone_SPACE4_1 ;
+    brick:hasPart bldg:coil_SPACE4_1_Zone_Coil,
+        bldg:damper_SPACE4_1_VAV_Reheat_Damper .
+
+bldg:vav_SPACE5_1_VAV_Reheat a brick:Variable_Air_Volume_Box_With_Reheat ;
+    rdfs:label "SPACE5-1 VAV Reheat" ;
+    rdfs:comment "Zone terminal path: central supply fan -> damper -> reheat coil -> SPACE5-1." ;
+    brick:feeds bldg:zone_SPACE5_1 ;
+    brick:hasLocation bldg:zone_SPACE5_1 ;
+    brick:hasPart bldg:coil_SPACE5_1_Zone_Coil,
+        bldg:damper_SPACE5_1_VAV_Reheat_Damper .
+
+bldg:building_id_5ZoneAutoDXVAVnw a brick:Building ;
+    rdfs:label "5ZoneAutoDXVAVnw" ;
+    brick:hasPart bldg:zone_PLENUM_1,
+        bldg:zone_SPACE1_1,
+        bldg:zone_SPACE2_1,
+        bldg:zone_SPACE3_1,
+        bldg:zone_SPACE4_1,
+        bldg:zone_SPACE5_1 .
+
+bldg:zone_PLENUM_1 a brick:HVAC_Zone ;
+    rdfs:label "PLENUM-1" ;
+    rdfs:comment "Derived EnergyPlus zone context: gross_floor_area_m2=463.600; volume_m3=283.200; exterior_wall_area_m2=54.840; solar_exposed_wall_count=4; adjacent_zones=SPACE1-1,SPACE2-1,SPACE3-1,SPACE4-1,SPACE5-1" ;
+    brick:grossArea [ a brick:EntityPropertyValue ;
+            brick:hasUnit unit:M2 ;
+            brick:value 4.636e+02 ] ;
+    brick:volume [ a brick:EntityPropertyValue ;
+            brick:hasUnit unit:M3 ;
+            brick:value 2.832e+02 ] ;
+    ext:adjacentTo bldg:zone_SPACE1_1,
+        bldg:zone_SPACE2_1,
+        bldg:zone_SPACE3_1,
+        bldg:zone_SPACE4_1,
+        bldg:zone_SPACE5_1 .
+
+bldg:zone_SPACE1_1 a brick:HVAC_Zone ;
+    rdfs:label "SPACE1-1" ;
+    rdfs:comment "Derived EnergyPlus zone context: gross_floor_area_m2=99.160; volume_m3=239.247; exterior_wall_area_m2=73.200; exterior_fenestration_area_m2=21.810; solar_exposed_wall_count=1; dominant_exterior_azimuth_deg=210.000; likely_direct_sun_period=midday to afternoon direct sun; adjacent_zones=PLENUM-1,SPACE2-1,SPACE4-1,SPACE5-1; people_design_count=22.000; lighting_design_w=1584.000; equipment_design_w=1056.000; oa_per_person_m3s=0.005; oa_per_area_m3s_m2=0.001; design_cooling_supply_air_temp_c=16.000; design_heating_supply_air_temp_c=35.000" ;
+    brick:azimuth [ a brick:EntityPropertyValue ;
+            brick:hasUnit unit:DEG ;
+            brick:value 2.1e+02 ] ;
+    brick:grossArea [ a brick:EntityPropertyValue ;
+            brick:hasUnit unit:M2 ;
+            brick:value 9.916e+01 ] ;
+    brick:hasPoint bldg:point_SPACE1_1_CoolingSetPoint,
+        bldg:point_SPACE1_1_Damper_Position,
+        bldg:point_SPACE1_1_HeatingSetPoint,
+        bldg:point_SPACE1_1_Occupancy,
+        bldg:point_SPACE1_1_PMV,
+        bldg:point_SPACE1_1_Zone_Air_Humidity,
+        bldg:point_SPACE1_1_Zone_Air_Temperature ;
+    brick:volume [ a brick:EntityPropertyValue ;
+            brick:hasUnit unit:M3 ;
+            brick:value 2.392474e+02 ] ;
+    ext:adjacentTo bldg:zone_PLENUM_1,
+        bldg:zone_SPACE2_1,
+        bldg:zone_SPACE4_1,
+        bldg:zone_SPACE5_1 .
+
+bldg:zone_SPACE2_1 a brick:HVAC_Zone ;
+    rdfs:label "SPACE2-1" ;
+    rdfs:comment "Derived EnergyPlus zone context: gross_floor_area_m2=42.735; volume_m3=103.311; exterior_wall_area_m2=36.480; exterior_fenestration_area_m2=9.120; solar_exposed_wall_count=1; dominant_exterior_azimuth_deg=120.000; likely_direct_sun_period=morning to late-morning direct sun; adjacent_zones=PLENUM-1,SPACE1-1,SPACE3-1,SPACE5-1; people_design_count=16.000; lighting_design_w=684.000; equipment_design_w=456.000; oa_per_person_m3s=0.005; oa_per_area_m3s_m2=0.001; design_cooling_supply_air_temp_c=16.000; design_heating_supply_air_temp_c=35.000" ;
+    brick:azimuth [ a brick:EntityPropertyValue ;
+            brick:hasUnit unit:DEG ;
+            brick:value 1.2e+02 ] ;
+    brick:grossArea [ a brick:EntityPropertyValue ;
+            brick:hasUnit unit:M2 ;
+            brick:value 4.2735e+01 ] ;
+    brick:hasPoint bldg:point_SPACE2_1_CoolingSetPoint,
+        bldg:point_SPACE2_1_Damper_Position,
+        bldg:point_SPACE2_1_HeatingSetPoint,
+        bldg:point_SPACE2_1_Occupancy,
+        bldg:point_SPACE2_1_PMV,
+        bldg:point_SPACE2_1_Zone_Air_Humidity,
+        bldg:point_SPACE2_1_Zone_Air_Temperature ;
+    brick:volume [ a brick:EntityPropertyValue ;
+            brick:hasUnit unit:M3 ;
+            brick:value 1.033114e+02 ] ;
+    ext:adjacentTo bldg:zone_PLENUM_1,
+        bldg:zone_SPACE1_1,
+        bldg:zone_SPACE3_1,
+        bldg:zone_SPACE5_1 .
+
+bldg:zone_SPACE3_1 a brick:HVAC_Zone ;
+    rdfs:label "SPACE3-1" ;
+    rdfs:comment "Derived EnergyPlus zone context: gross_floor_area_m2=96.480; volume_m3=239.247; exterior_wall_area_m2=73.200; exterior_fenestration_area_m2=20.850; solar_exposed_wall_count=1; dominant_exterior_azimuth_deg=30.000; likely_direct_sun_period=limited direct sun; strongest in summer shoulder hours; adjacent_zones=PLENUM-1,SPACE2-1,SPACE4-1,SPACE5-1; people_design_count=18.000; lighting_design_w=1584.000; equipment_design_w=1056.000; oa_per_person_m3s=0.005; oa_per_area_m3s_m2=0.001; design_cooling_supply_air_temp_c=16.000; design_heating_supply_air_temp_c=35.000" ;
+    brick:azimuth [ a brick:EntityPropertyValue ;
+            brick:hasUnit unit:DEG ;
+            brick:value 3e+01 ] ;
+    brick:grossArea [ a brick:EntityPropertyValue ;
+            brick:hasUnit unit:M2 ;
+            brick:value 9.648e+01 ] ;
+    brick:hasPoint bldg:point_SPACE3_1_CoolingSetPoint,
+        bldg:point_SPACE3_1_Damper_Position,
+        bldg:point_SPACE3_1_HeatingSetPoint,
+        bldg:point_SPACE3_1_Occupancy,
+        bldg:point_SPACE3_1_PMV,
+        bldg:point_SPACE3_1_Zone_Air_Humidity,
+        bldg:point_SPACE3_1_Zone_Air_Temperature ;
+    brick:volume [ a brick:EntityPropertyValue ;
+            brick:hasUnit unit:M3 ;
+            brick:value 2.392474e+02 ] ;
+    ext:adjacentTo bldg:zone_PLENUM_1,
+        bldg:zone_SPACE2_1,
+        bldg:zone_SPACE4_1,
+        bldg:zone_SPACE5_1 .
+
+bldg:zone_SPACE4_1 a brick:HVAC_Zone ;
+    rdfs:label "SPACE4-1" ;
+    rdfs:comment "Derived EnergyPlus zone context: gross_floor_area_m2=42.735; volume_m3=103.311; exterior_wall_area_m2=36.480; exterior_fenestration_area_m2=9.120; solar_exposed_wall_count=1; dominant_exterior_azimuth_deg=300.000; likely_direct_sun_period=afternoon to evening direct sun; adjacent_zones=PLENUM-1,SPACE1-1,SPACE3-1,SPACE5-1; people_design_count=13.000; lighting_design_w=684.000; equipment_design_w=456.000; oa_per_person_m3s=0.005; oa_per_area_m3s_m2=0.001; design_cooling_supply_air_temp_c=16.000; design_heating_supply_air_temp_c=35.000" ;
+    brick:azimuth [ a brick:EntityPropertyValue ;
+            brick:hasUnit unit:DEG ;
+            brick:value 3e+02 ] ;
+    brick:grossArea [ a brick:EntityPropertyValue ;
+            brick:hasUnit unit:M2 ;
+            brick:value 4.2735e+01 ] ;
+    brick:hasPoint bldg:point_SPACE4_1_CoolingSetPoint,
+        bldg:point_SPACE4_1_Damper_Position,
+        bldg:point_SPACE4_1_HeatingSetPoint,
+        bldg:point_SPACE4_1_Occupancy,
+        bldg:point_SPACE4_1_PMV,
+        bldg:point_SPACE4_1_Zone_Air_Humidity,
+        bldg:point_SPACE4_1_Zone_Air_Temperature ;
+    brick:volume [ a brick:EntityPropertyValue ;
+            brick:hasUnit unit:M3 ;
+            brick:value 1.033114e+02 ] ;
+    ext:adjacentTo bldg:zone_PLENUM_1,
+        bldg:zone_SPACE1_1,
+        bldg:zone_SPACE3_1,
+        bldg:zone_SPACE5_1 .
+
+bldg:zone_SPACE5_1 a brick:HVAC_Zone ;
+    rdfs:label "SPACE5-1" ;
+    rdfs:comment "Derived EnergyPlus zone context: gross_floor_area_m2=182.490; volume_m3=447.683; adjacent_zones=PLENUM-1,SPACE1-1,SPACE2-1,SPACE3-1,SPACE4-1; people_design_count=38.000; lighting_design_w=2964.000; equipment_design_w=1976.000; oa_per_person_m3s=0.005; oa_per_area_m3s_m2=0.001; design_cooling_supply_air_temp_c=16.000; design_heating_supply_air_temp_c=35.000" ;
+    brick:grossArea [ a brick:EntityPropertyValue ;
+            brick:hasUnit unit:M2 ;
+            brick:value 1.8249e+02 ] ;
+    brick:hasPoint bldg:point_SPACE5_1_CoolingSetPoint,
+        bldg:point_SPACE5_1_Damper_Position,
+        bldg:point_SPACE5_1_HeatingSetPoint,
+        bldg:point_SPACE5_1_Occupancy,
+        bldg:point_SPACE5_1_PMV,
+        bldg:point_SPACE5_1_Zone_Air_Humidity,
+        bldg:point_SPACE5_1_Zone_Air_Temperature ;
+    brick:volume [ a brick:EntityPropertyValue ;
+            brick:hasUnit unit:M3 ;
+            brick:value 4.476826e+02 ] ;
+    ext:adjacentTo bldg:zone_PLENUM_1,
+        bldg:zone_SPACE1_1,
+        bldg:zone_SPACE2_1,
+        bldg:zone_SPACE3_1,
+        bldg:zone_SPACE4_1 .
+

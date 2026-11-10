@@ -6,6 +6,7 @@ import math
 import os
 import re
 import signal
+import sys
 import time
 from collections import defaultdict, deque
 from datetime import datetime, timedelta
@@ -16,6 +17,9 @@ import gymnasium as gym
 import numpy as np
 import pandas as pd
 from rdflib import Graph as RDFGraph
+
+SRC_DIR = Path(__file__).resolve().parent.parent
+sys.path.insert(0, str(SRC_DIR / "common"))
 
 import hop_sinergym_spatiotemporal_preview as brick_context
 import sinergym  # noqa: F401

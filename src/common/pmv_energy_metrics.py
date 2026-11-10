@@ -1,10 +1,9 @@
-"""
-Shared PMV + HVAC energy metrics from Sinergym monitor/observations.csv.
+"""Shared PMV, comfort, and HVAC energy metrics for simulation result data.
 
-Extracted from PMV energy ub.py for reuse by agent runs and post-hoc analysis.
-When EnergyPlus/Sinergym PMV observation columns (`pmv_space1`..`pmv_space5`)
-are present, metrics use those direct simulation values. The ASHRAE Python PMV
-calculation is kept only as a fallback for older CSVs without PMV columns.
+Calculate ASHRAE 55 PMV with ``pythermalcomfort`` using zone air temperature for both
+``tdb`` and ``tr``, observed relative humidity, ``vr=0.1 m/s``, ``met=1.2``,
+``wme=0``, and ``clo=0.5`` in June–September (summer months) or ``1.0`` otherwise. PMV comfort
+is assessed against [-0.5, 0.5]. HVAC energy integrates 15-minute power values.
 """
 
 from __future__ import annotations
@@ -34,7 +33,7 @@ SUMMER_COMFORT_HIGH = 26.0
 
 
 def runperiod_to_date_range(runperiod: Tuple[int, ...]) -> Tuple[List[int], List[int]]:
-    """Sinergym runperiod (d,m,y,d,m,y) -> ([d,m,y], [d,m,y])."""
+    """Convert a run period (d,m,y,d,m,y) to start and end dates."""
     sd, sm, sy, ed, em, ey = runperiod
     return [sd, sm, sy], [ed, em, ey]
 
@@ -147,8 +146,7 @@ def zone_pmv_for_occupied_steps(
     """
     PMV values for occupied rows in one zone.
 
-    Prefer direct Sinergym/EnergyPlus PMV observation columns (`pmv_spaceX`).
-    Fall back to the local ASHRAE calculation only when the PMV column is absent.
+    Calculate PMV using the local ASHRAE method.
     """
     pmv_col = f"pmv_space{zone}"
     occ_col = f"air_occ_space{zone}"
@@ -290,7 +288,7 @@ def label_for_date_range(start: List[int], end: List[int]) -> str:
 
 
 def build_pmv_summary_table(metrics: Dict[str, Any]) -> List[Dict[str, Any]]:
-    """Tabular PMV report rows (Zone 1..5 + ALL), matching PMV energy ub.py columns."""
+    """Return tabular PMV summary rows for each zone and the whole building."""
     rows: List[Dict[str, Any]] = []
     zone_metrics = metrics.get("zone_metrics") or {}
 
@@ -332,9 +330,7 @@ def format_pmv_summary_report(
     date_start: Optional[List[int]] = None,
     date_end: Optional[List[int]] = None,
 ) -> str:
-    """
-    Terminal-style PMV + energy report (same layout as PMV energy ub.py print_method_report).
-    """
+    """Format run-level PMV and HVAC energy metrics as readable text."""
     period = metrics.get("period_label")
     if not period and date_start and date_end:
         period = label_for_date_range(date_start, date_end)

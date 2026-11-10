@@ -1,0 +1,84 @@
+{
+  "input_epjson": "/workspace/sinergym/sinergym/data/buildings/2ZoneDataCenterHVAC_wEconomizer_DX.epJSON",
+  "output_ttl": "/workspace/sinergym/sinergym/data/buildings/2ZoneDataCenterHVAC_wEconomizer_DX_brick.ttl",
+  "triples": 583,
+  "mapped_counts": {
+    "Air_Handling_Unit": 2,
+    "Air_Loop": 2,
+    "Building": 1,
+    "BuildingSurface": 24,
+    "Cooling_Coil": 2,
+    "Cooling_Zone_Air_Temperature_Setpoint": 2,
+    "Direct_Expansion_Cooling_Coil": 2,
+    "Electrical_Energy_Usage_Sensor": 1,
+    "Electrical_Equipment": 2,
+    "HVAC_Equipment": 10,
+    "HVAC_Zone": 4,
+    "Heating_Coil": 2,
+    "Heating_Zone_Air_Temperature_Setpoint": 2,
+    "Outside_Air_Humidity_Sensor": 1,
+    "Outside_Air_Temperature_Sensor": 1,
+    "Sensor": 16,
+    "Site": 1,
+    "Solar_Irradiance_Sensor": 2,
+    "Supply_Fan": 2,
+    "Thermostat": 2,
+    "TimeseriesReference": 30,
+    "Variable_Air_Volume_Box": 2,
+    "Weather_Station": 1,
+    "Wind_Speed_Sensor": 1,
+    "Zone_Air_Humidity_Sensor": 2,
+    "Zone_Air_Temperature_Sensor": 2
+  },
+  "custom_checks": [
+    {
+      "name": "ttl_roundtrip",
+      "ok": true,
+      "details": "written=583, parsed=583"
+    },
+    {
+      "name": "East_Zone_zone_points",
+      "ok": true,
+      "details": "east_mass_flow_rate, east_return_temperature, east_supply_temperature, east_zone_air_humidity, east_zone_air_temperature, east_zone_clg_setpoint, east_zone_htg_setpoint, east_zone_mean_radiant_temperature"
+    },
+    {
+      "name": "East_Zone_vav",
+      "ok": true,
+      "details": "VAV feeds controlled zone"
+    },
+    {
+      "name": "East_Zone_thermostat",
+      "ok": true,
+      "details": "dual heating/cooling setpoints"
+    },
+    {
+      "name": "West_Zone_zone_points",
+      "ok": true,
+      "details": "west_mass_flow_rate, west_return_temperature, west_supply_temperature, west_zone_air_humidity, west_zone_air_temperature, west_zone_clg_setpoint, west_zone_htg_setpoint, west_zone_mean_radiant_temperature"
+    },
+    {
+      "name": "West_Zone_vav",
+      "ok": true,
+      "details": "VAV feeds controlled zone"
+    },
+    {
+      "name": "West_Zone_thermostat",
+      "ok": true,
+      "details": "dual heating/cooling setpoints"
+    },
+    {
+      "name": "runtime_references",
+      "ok": true,
+      "details": "required=['HVAC_electricity_demand_rate', 'HVAC_electricity_energy_j', 'east_ite_cpu_electricity_rate', 'west_ite_cpu_electricity_rate'], present=['HVAC_electricity_demand_rate', 'HVAC_electricity_energy_j', 'diffuse_solar_radiation', 'direct_solar_radiation', 'east_dx_sensible_cooling_rate', 'east_dx_total_cooling_rate', 'east_ite_cpu_electricity_rate', 'east_mass_flow_rate', 'east_return_temperature', 'east_supply_temperature', 'east_zone_air_humidity', 'east_zone_air_temperature', 'east_zone_clg_setpoint', 'east_zone_htg_setpoint', 'east_zone_mean_radiant_temperature', 'outdoor_humidity', 'outdoor_temperature', 'west_dx_sensible_cooling_rate', 'west_dx_total_cooling_rate', 'west_ite_cpu_electricity_rate', 'west_mass_flow_rate', 'west_return_temperature', 'west_supply_temperature', 'west_zone_air_humidity', 'west_zone_air_temperature', 'west_zone_clg_setpoint', 'west_zone_htg_setpoint', 'west_zone_mean_radiant_temperature', 'wind_direction', 'wind_speed']"
+    }
+  ],
+  "brick_validation": {
+    "status": "pass_with_ontology_warnings",
+    "ok": true,
+    "full_ontology_conforms": false,
+    "user_model_violation_count": 0,
+    "details": "Validation Report\nConforms: False\nResults (3):\nConstraint Violation in MinCountConstraintComponent (http://www.w3.org/ns/shacl#MinCountConstraintComponent):\n\tSeverity: sh:Violation\n\tSource Shape: [ sh:message Literal(\"All ExternalReference must have an skos:definition\") ; sh:minCount Literal(\"1\", datatype=xsd:integer) ; sh:path skos:definition ]\n\tFocus Node: ref:BACnetReference\n\tResult Path: skos:definition\n\tMessage: All ExternalReference must have an skos:definition\nConstraint Violation in MinCountConstraintComponent (http://www.w3.org/ns/shacl#MinCountConstraintComponent):\n\tSeverity: sh:Violation\n\tSource Shape: [ sh:message Literal(\"All ExternalReference must have an skos:definition\") ; sh:minCount Literal(\"1\", datatype=xsd:integer) ; sh:path skos:definition ]\n\tFocus Node: ref:IFCReference\n\tResult Path: skos:definition\n\tMessage: All ExternalReference must have an skos:definition\nConstraint Violation in MinCountConstraintComponent (http://www.w3.org/ns/shacl#MinCountConstraintComponent):\n\tSeverity: sh:Violation\n\tSource Shape: [ sh:message Literal(\"All ExternalReference must have an skos:definition\") ; sh:minCount Literal(\"1\", datatype=xsd:integer) ; sh:path skos:definition ]\n\tFocus Node: ref:TimeseriesReference\n\tResult Path: skos:definition\n\tMessage: All ExternalReference must have an skos:definition\n"
+  },
+  "ttl_parse_ok": true,
+  "overall_ok": true
+}
